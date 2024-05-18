@@ -1,0 +1,31 @@
+Memory segment.
+
+Continuous range of bytes in memory.
+
+At design time I was thinking about alternative representations:
+
+  * Two points:
+
+      <Start>
+      <Finish>
+
+    * Not practical. Typically you interested in size of structure,
+      not it's boundaries.
+
+    * <Finish> can be less than <Start>.
+
+      We can treat this as complimentary angle, so (45, -45) describes
+      circle arc point starting at 45 degrees and ending at 315 degrees.
+
+      Nice structure for circular buffer in array. But you need to
+      know array size, third parameter.
+
+  * "Size" or "Length"?
+
+    "Length" is one-dimensional metric. "Size" is something more
+    generic. We are talking about "large size", not "big length".
+
+    I settled on "size" assuming amount of information units in
+    structure, not geometric meaning of length of 1-d segment.
+
+-- Martin, 2024-05-17
