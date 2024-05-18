@@ -27,6 +27,8 @@ Run [Remove.sh](Remove.sh).
 
 [Example](examples/me_MemorySegment/me_MemorySegment.ino)
 
+[Design notes](extras/Design%20notes.txt)
+
 
 ## See also
 
