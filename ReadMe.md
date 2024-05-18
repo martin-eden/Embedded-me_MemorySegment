@@ -23,9 +23,9 @@ Run [Remove.sh](Remove.sh).
 
 ## Details
 
-[Example](examples/me_MemorySegment/me_MemorySegment.ino)
-
 [Interface](src/me_MemorySegment.h)
+
+[Example](examples/me_MemorySegment/me_MemorySegment.ino)
 
 
 ## See also
