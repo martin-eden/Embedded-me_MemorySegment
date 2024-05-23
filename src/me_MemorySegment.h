@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-05-18
+  Last mod.: 2024-05-23
 */
 
 // Data structures is the base. Algorithms just spawn on them like plant species.
@@ -14,8 +14,9 @@
 
 namespace me_MemorySegment
 {
-  using namespace me_MemoryPoint;
   using namespace me_BaseTypes;
+
+  using me_MemoryPoint::TMemoryPoint;
 
   /*
     Memory span with byte granularity
@@ -25,6 +26,15 @@ namespace me_MemorySegment
     TMemoryPoint Start;
     TUint_2 Size;
   };
+
+  // Get byte from segment by given offset
+  TBool GetByte(
+    TUint_1 * Byte,
+    TMemorySegment Segment,
+    TUint_2 Offset
+  );
+
+  using me_MemoryPoint::TMemoryPoint_Bits;
 
   /*
     Memory span with bit granularity
@@ -40,4 +50,5 @@ namespace me_MemorySegment
 
 /*
   2024-05-17
+  2024-05-23 GetByte
 */
