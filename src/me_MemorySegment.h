@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-05-23
+  Last mod.: 2024-05-25
 */
 
 // Data structures is the base. Algorithms just spawn on them like plant species.
@@ -14,9 +14,14 @@
 
 namespace me_MemorySegment
 {
-  using namespace me_BaseTypes;
+  using
+    me_BaseTypes::TBool,
+    me_BaseTypes::TUint_1,
+    me_BaseTypes::TUint_2,
+    me_BaseTypes::TChar;
 
-  using me_MemoryPoint::TMemoryPoint;
+  using
+    me_MemoryPoint::TMemoryPoint;
 
   /*
     Memory span with byte granularity
@@ -25,6 +30,13 @@ namespace me_MemorySegment
   {
     TMemoryPoint Start;
     TUint_2 Size;
+
+    // Print segment range to stdout
+    void PrintWrappings();
+    // Print raw bytes of memory in range to stdout
+    void PrintMem();
+    // Copy memory to another segment
+    TBool CopyMemTo(TMemorySegment Dest);
   };
 
   // Get byte from segment by given offset
@@ -33,6 +45,15 @@ namespace me_MemorySegment
     TMemorySegment Segment,
     TUint_2 Offset
   );
+
+  // Describe ASCIIZ structure as memory segment
+  TMemorySegment FromAsciiz(TChar * Asciiz);
+
+  // Allocate memory for structure
+  TBool Spawn(TMemorySegment * * Segment);
+
+  // Deallocate memory with structure
+  TBool Kill(TMemorySegment * Segment);
 
   using me_MemoryPoint::TMemoryPoint_Bits;
 
@@ -51,4 +72,5 @@ namespace me_MemorySegment
 /*
   2024-05-17
   2024-05-23 GetByte
+  2024-05-25 PrintWrappings, PrintMem, CopyMemTo, Spawn, Kill
 */
