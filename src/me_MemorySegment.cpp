@@ -194,8 +194,6 @@ TBool me_MemorySegment::Spawn(TMemorySegment * * Segment)
   (*Segment)->Start.Addr = 0;
   (*Segment)->Size = 0;
 
-  // printf("Spawned [0x%04X].\n", Addr);
-
   return true;
 }
 
@@ -206,8 +204,6 @@ TBool me_MemorySegment::Kill(TMemorySegment * Segment)
     return false;
 
   free(Segment);
-
-  // printf("Killed [0x%04X].\n", (TUint_2) Segment);
 
   return true;
 }
