@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-05-25
+  Last mod.: 2024-05-27
 */
 
 #include "me_MemorySegment.h"
@@ -69,7 +69,12 @@ TBool me_MemorySegment::GetByte(
 */
 void TMemorySegment::PrintWrappings()
 {
-  printf("Start 0x%04X Size %d", this->Start.Addr, this->Size);
+  printf(
+    "[0x%04X](Start 0x%04X Size %d)",
+    (TUint_2) this,
+    this->Start.Addr,
+    this->Size
+    );
 }
 
 /*
