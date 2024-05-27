@@ -62,7 +62,7 @@ TBool me_MemorySegment::GetByte(
 /*
   Print data describing memory segment to stdout.
 
-  Useful for debug.
+  Useful for verification.
 
   We do not make any assumptions regarding memory described
   by segment. We do not try to read it.
@@ -72,9 +72,9 @@ void TMemorySegment::PrintWrappings()
   printf(
     "[0x%04X](Start 0x%04X Size %u)",
     (TUint_2) this,
-    this->Start.Addr,
-    this->Size
-    );
+    Start.Addr,
+    Size
+  );
 }
 
 /*
@@ -82,8 +82,8 @@ void TMemorySegment::PrintWrappings()
 */
 void TMemorySegment::PrintMem()
 {
-  for (TUint_2 Offset = 0; Offset < this->Size; ++Offset)
-    fputc(this->Start.Bytes[Offset], stdout);
+  for (TUint_2 Offset = 0; Offset < Size; ++Offset)
+    fputc(Start.Bytes[Offset], stdout);
 }
 
 /*
@@ -184,8 +184,8 @@ TBool me_MemorySegment::TMemorySegment::CopyMemFrom(TMemorySegment Src)
 */
 void me_MemorySegment::TMemorySegment::ZeroMem()
 {
-  for (TUint_2 Offset = 0; Offset < this->Size; ++Offset)
-    this->Start.Bytes[Offset] = 0;
+  for (TUint_2 Offset = 0; Offset < Size; ++Offset)
+    Start.Bytes[Offset] = 0;
 }
 
 /*

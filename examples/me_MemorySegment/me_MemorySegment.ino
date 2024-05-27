@@ -100,6 +100,7 @@ void Test()
   }
   printf("Freed data memory.\n");
 
+  // Data after free should be zeroes
   printf("MessageSeg_Copy-Segment( ");
   MessageSeg_Copy->PrintWrappings();
   printf(" )\n");
