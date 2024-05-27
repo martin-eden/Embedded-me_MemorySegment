@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-05-25
+  Last mod.: 2024-05-27
 */
 
 // Data structures is the base. Algorithms just spawn on them like plant species.
@@ -37,6 +37,10 @@ namespace me_MemorySegment
     void PrintMem();
     // Copy memory to another segment
     TBool CopyMemTo(TMemorySegment Dest);
+    // Reserve block of memory
+    TBool ReserveChunk();
+    // Release block of memory
+    TBool ReleaseChunk();
   };
 
   // Get byte from segment by given offset
@@ -73,4 +77,5 @@ namespace me_MemorySegment
   2024-05-17
   2024-05-23 GetByte
   2024-05-25 PrintWrappings, PrintMem, CopyMemTo, Spawn, Kill
+  2024-05-27 ReserveChunk, ReleaseChunk
 */
