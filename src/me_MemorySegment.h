@@ -35,8 +35,12 @@ namespace me_MemorySegment
     void PrintWrappings();
     // Print raw bytes of memory in range to stdout
     void PrintMem();
+
     // Copy memory to another segment
     TBool CopyMemTo(TMemorySegment Dest);
+    // Copy memory from another segment
+    TBool CopyMemFrom(TMemorySegment Src);
+
     // Reserve block of memory
     TBool ReserveChunk();
     // Release block of memory

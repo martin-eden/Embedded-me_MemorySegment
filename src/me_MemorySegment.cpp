@@ -162,6 +162,19 @@ TBool me_MemorySegment::TMemorySegment::CopyMemTo(TMemorySegment Dest)
 }
 
 /*
+  Copy memory _from_ another segment.
+
+  Because I don't know which way of writing "copy" is right:
+  CopyTo() or CopyFrom().
+
+  Commutativeness is a nice property.
+*/
+TBool me_MemorySegment::TMemorySegment::CopyMemFrom(TMemorySegment Src)
+{
+  return Src.CopyMemTo((*this));
+}
+
+/*
   Allocate memory for structure
 
   We are allocating four bytes. Memory for structure.
