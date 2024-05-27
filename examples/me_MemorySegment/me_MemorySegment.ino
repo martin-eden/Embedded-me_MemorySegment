@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-05-25
+  Last mod.: 2024-05-27
 */
 
 #include <me_MemorySegment.h>
@@ -31,79 +31,94 @@ void loop()
 void Test()
 {
   using
+    me_BaseTypes::TChar,
     me_BaseTypes::TUint_2,
     me_MemorySegment::TMemorySegment,
     me_MemorySegment::FromAsciiz,
     me_MemorySegment::Spawn,
     me_MemorySegment::Kill;
 
-  // Load from ASCIIZ
-  TMemorySegment Message = FromAsciiz("Spawn Copy Kill");
+  // Treat ASCIIZ as memory segment. No data copied.
+  TMemorySegment MessageSeg = FromAsciiz((TChar *)"Spawn Copy Kill");
 
   // Print range
   printf("Message-Segment( ");
-  Message.PrintWrappings();
+  MessageSeg.PrintWrappings();
   printf(" )\n");
 
   // Print contents
   printf("Message-Mem( ");
-  Message.PrintMem();
+  MessageSeg.PrintMem();
   printf(" )\n");
 
   /*
     Now the hard part. Heap memory.
 
-    We will create copy of <Message> in heap. Then will free it.
+    We will create copy of <MessageSeg> in heap. Then will free it.
   */
-  TMemorySegment * Message_Copy;
+  TMemorySegment * MessageSeg_Copy;
 
   // Allocate node
-  if (!Spawn(&Message_Copy))
+  if (!Spawn(&MessageSeg_Copy))
   {
     printf("Failed to spawn memory segment record.\n");
     return;
   }
-  printf("Spawned at [0x%04X].\n", (TUint_2) Message_Copy);
+  printf("Spawned at [0x%04X].\n", (TUint_2) MessageSeg_Copy);
 
   // Allocate mem for data
-  TUint_2 CharsCopyStorageAddr = (TUint_2) malloc(Message.Size);
-  if (CharsCopyStorageAddr == 0)
+  MessageSeg_Copy->Start.Addr = 0;
+  MessageSeg_Copy->Size = MessageSeg.Size;
+  if (!MessageSeg_Copy->ReserveChunk())
   {
     printf("No mem for data copy.\n");
-    Kill(Message_Copy);
+    Kill(MessageSeg_Copy);
     return;
   }
-  printf("Allocated memory for copy at [0x%04X].\n", CharsCopyStorageAddr);
-
-  // Setup node
-  Message_Copy->Start.Addr = CharsCopyStorageAddr;
-  Message_Copy->Size = Message.Size;
+  printf(
+    "Allocated memory for copy at [0x%04X].\n",
+    MessageSeg_Copy->Start.Addr
+  );
 
   // Copy data
-  Message.CopyMemTo(*Message_Copy);
+  MessageSeg_Copy->CopyMemFrom(MessageSeg);
 
-  printf("Message_Copy-Segment( ");
-  Message_Copy->PrintWrappings();
+  printf("MessageSeg_Copy-Segment( ");
+  MessageSeg_Copy->PrintWrappings();
   printf(" )\n");
 
-  printf("Message_Copy-Mem( ");
-  Message_Copy->PrintMem();
+  printf("MessageSeg_Copy-Mem( ");
+  MessageSeg_Copy->PrintMem();
   printf(" )\n");
 
   // Free data
-  free((void *) Message_Copy->Start.Addr);
-  printf("Freed data memory at [0x%04X].\n", Message_Copy->Start.Addr);
+  if (!MessageSeg_Copy->ReleaseChunk())
+  {
+    printf("Failed to release chunk.\n");
+    Kill(MessageSeg_Copy);
+    return;
+  }
+  printf("Freed data memory.\n");
+
+  printf("MessageSeg_Copy-Segment( ");
+  MessageSeg_Copy->PrintWrappings();
+  printf(" )\n");
+
+  printf("MessageSeg_Copy-Mem( ");
+  MessageSeg_Copy->PrintMem();
+  printf(" )\n");
 
   // Free node
-  if (!Kill(Message_Copy))
+  if (!Kill(MessageSeg_Copy))
   {
     printf("Failed to kill memory segment.\n");
     return;
   }
-  printf("Killed [0x%04X].\n", (TUint_2) Message_Copy);
+  printf("Killed [0x%04X].\n", (TUint_2) MessageSeg_Copy);
 }
 
 /*
   2024-05-17
   2024-05-25
+  2024-05-27
 */
