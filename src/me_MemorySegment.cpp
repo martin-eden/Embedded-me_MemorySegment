@@ -175,6 +175,20 @@ TBool me_MemorySegment::TMemorySegment::CopyMemFrom(TMemorySegment Src)
 }
 
 /*
+  Fill memory span with zero byte.
+
+  We imply that memory is "ours", so we can write there
+  whatever we please.
+
+  This function is called from ReserveChunk() and ReleaseChunk().
+*/
+void me_MemorySegment::TMemorySegment::ZeroMem()
+{
+  for (TUint_2 Offset = 0; Offset < this->Size; ++Offset)
+    this->Start.Bytes[Offset] = 0;
+}
+
+/*
   Allocate memory for structure
 
   We are allocating four bytes. Memory for structure.
@@ -201,9 +215,6 @@ TBool me_MemorySegment::Spawn(TMemorySegment * * Segment)
     return false;
 
   *Segment = (TMemorySegment*) TransientSeg.Start.Addr;
-
-  (*Segment)->Start.Addr = 0;
-  (*Segment)->Size = 0;
 
   return true;
 }

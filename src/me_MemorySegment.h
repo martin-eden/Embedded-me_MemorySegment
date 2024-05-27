@@ -40,6 +40,8 @@ namespace me_MemorySegment
     TBool CopyMemTo(TMemorySegment Dest);
     // Copy memory from another segment
     TBool CopyMemFrom(TMemorySegment Src);
+    // Fill memory with zeroes
+    void ZeroMem();
 
     // Reserve block of memory
     TBool ReserveChunk();
@@ -81,5 +83,5 @@ namespace me_MemorySegment
   2024-05-17
   2024-05-23 GetByte
   2024-05-25 PrintWrappings, PrintMem, CopyMemTo, Spawn, Kill
-  2024-05-27 ReserveChunk, ReleaseChunk
+  2024-05-27 ReserveChunk, ReleaseChunk, ZeroMem
 */

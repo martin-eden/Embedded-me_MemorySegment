@@ -7,6 +7,9 @@
   to allocate memory. And we call "free(self.Addr)" when you want us
   to release it. These actions will modify our fields.
 
+  Memory span is zeroed after allocation. Memory span is zeroed
+  before release.
+
   Reserve memory block of <.Size>:
 
     bool .Reserve()
@@ -56,18 +59,20 @@ using
 */
 TBool TMemorySegment::ReserveChunk()
 {
-  if (this->Start.Addr != 0)
+  if (Start.Addr != 0)
     return false;
 
-  if (this->Size == 0)
+  if (Size == 0)
     return false;
 
-  TUint_2 Addr = (TUint_2) malloc(this->Size);
+  TUint_2 MallocAddr = (TUint_2) malloc(Size);
 
-  if (Addr == 0)
+  if (MallocAddr == 0)
     return false;
 
-  this->Start.Addr = Addr;
+  Start.Addr = MallocAddr;
+
+  ZeroMem();
 
   return true;
 }
@@ -87,16 +92,18 @@ TBool TMemorySegment::ReserveChunk()
 */
 TBool TMemorySegment::ReleaseChunk()
 {
-  if (this->Start.Addr == 0)
+  if (Start.Addr == 0)
     return false;
 
-  if (this->Size == 0)
+  if (Size == 0)
     return false;
 
-  free((void *) this->Start.Addr);
+  ZeroMem();
 
-  this->Start.Addr = 0;
-  this->Size = 0;
+  free((void *) Start.Addr);
+
+  Start.Addr = 0;
+  Size = 0;
 
   return true;
 }
