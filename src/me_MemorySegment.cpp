@@ -70,7 +70,7 @@ TBool me_MemorySegment::GetByte(
 void TMemorySegment::PrintWrappings()
 {
   printf(
-    "[0x%04X](Start 0x%04X Size %d)",
+    "[0x%04X](Start 0x%04X Size %u)",
     (TUint_2) this,
     this->Start.Addr,
     this->Size
@@ -179,17 +179,28 @@ TBool me_MemorySegment::TMemorySegment::CopyMemFrom(TMemorySegment Src)
 
   We are allocating four bytes. Memory for structure.
 
-  We are receiving address. We are writing to that address address
-  of structure. I hate C.
+  We are receiving address where we should write address of structure.
+  I hate C.
 */
 TBool me_MemorySegment::Spawn(TMemorySegment * * Segment)
 {
-  TUint_2 Addr = (TUint_2) malloc(sizeof(TMemorySegment));
+  /*
+    Use memory segment to allocate memory segment!
 
-  if (Addr == 0)
+    Because I want only one place in my code with malloc()/free().
+
+    <TransientSeg> dies when function ends. But it will point
+    argument to address it received from ReserveChunk() before death.
+  */
+  TMemorySegment TransientSeg;
+
+  TransientSeg.Start.Addr = 0;
+  TransientSeg.Size = sizeof(TMemorySegment);
+
+  if (!TransientSeg.ReserveChunk())
     return false;
 
-  *Segment = (TMemorySegment*) Addr;
+  *Segment = (TMemorySegment*) TransientSeg.Start.Addr;
 
   (*Segment)->Start.Addr = 0;
   (*Segment)->Size = 0;
@@ -200,12 +211,12 @@ TBool me_MemorySegment::Spawn(TMemorySegment * * Segment)
 // Deallocate memory with structure
 TBool me_MemorySegment::Kill(TMemorySegment * Segment)
 {
-  if ((TUint_2) Segment == 0)
-    return false;
+  TMemorySegment TransientSeg;
 
-  free(Segment);
+  TransientSeg.Start.Addr = (TUint_2) Segment;
+  TransientSeg.Size = sizeof(TMemorySegment);
 
-  return true;
+  return TransientSeg.ReleaseChunk();
 }
 
 /*
