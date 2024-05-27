@@ -23,7 +23,7 @@ At design time I was thinking about alternative representations:
   * "Size" or "Length"?
 
     "Length" is one-dimensional metric. "Size" is something more
-    generic. We are talking about "large size", not "big length".
+    generic. We are talking about "large size", not "long length".
 
     I settled on "size" assuming amount of information units in
     structure, not geometric meaning of length of 1-d segment.
