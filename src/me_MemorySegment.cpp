@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-05-27
+  Last mod.: 2024-05-29
 */
 
 #include "me_MemorySegment.h"
@@ -79,7 +79,7 @@ void TMemorySegment::PrintWrappings()
 /*
   Print uncooked contents of memory segment to stdout.
 */
-void TMemorySegment::PrintMem()
+void TMemorySegment::Print()
 {
   for (TUint_2 Offset = 0; Offset < Size; ++Offset)
     fputc(Bytes[Offset], stdout);

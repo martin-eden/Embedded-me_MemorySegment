@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-05-27
+  Last mod.: 2024-05-29
 */
 
 #include <me_MemorySegment.h>
@@ -48,7 +48,7 @@ void Test()
 
   // Print contents
   printf("Message-Mem( ");
-  MessageSeg.PrintMem();
+  MessageSeg.Print();
   printf(" )\n");
 
   /*
@@ -88,7 +88,7 @@ void Test()
   printf(" )\n");
 
   printf("MessageSeg_Copy-Mem( ");
-  MessageSeg_Copy->PrintMem();
+  MessageSeg_Copy->Print();
   printf(" )\n");
 
   // Free data
@@ -106,7 +106,7 @@ void Test()
   printf(" )\n");
 
   printf("MessageSeg_Copy-Mem( ");
-  MessageSeg_Copy->PrintMem();
+  MessageSeg_Copy->Print();
   printf(" )\n");
 
   // Free node
@@ -122,4 +122,5 @@ void Test()
   2024-05-17
   2024-05-25
   2024-05-27
+  2024-05-29
 */

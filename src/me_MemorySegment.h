@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-05-27
+  Last mod.: 2024-05-29
 */
 
 /*
@@ -41,7 +41,7 @@ namespace me_MemorySegment
     // Print segment range to stdout
     void PrintWrappings();
     // Print raw bytes of memory in range to stdout
-    void PrintMem();
+    void Print();
 
     // Copy memory to another segment
     TBool CopyMemTo(TMemorySegment Dest);
