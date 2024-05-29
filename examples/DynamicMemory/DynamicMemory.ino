@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-05-27
+  Last mod.: 2024-05-29
 */
 
 #include <me_MemorySegment.h>
@@ -45,7 +45,10 @@ void Test()
   {
     printf("One memory segment reserve/release:\n");
 
-    TMemorySegment Seg = { .Start = { .Addr = 0}, .Size = 16 };
+    // Address of segment must be 0 when we call Reserve()
+
+    // note (1)
+    TMemorySegment Seg = { { 0 }, .Size = 16 };
 
     VerboseReserve(&Seg);
     VerboseRelease(&Seg);
@@ -64,8 +67,9 @@ void Test()
     for (TUint_1 NumAllocated = 0; NumAllocated < NumSegments; ++NumAllocated)
     {
       TMemorySegment * CurSegment = &(Segments[NumAllocated]);
-      CurSegment->Size = ChunkSize;
+
       CurSegment->Start.Addr = 0;
+      CurSegment->Size = ChunkSize;
 
       if (!VerboseReserve(&Segments[NumAllocated]))
         return;
@@ -121,6 +125,24 @@ me_BaseTypes::TBool VerboseRelease(
 
   return true;
 }
+
+/*
+  [1]:
+
+    First element of structure is anonymous union.
+
+    I would like to initialize it by specifying member like
+
+      TMemorySegment Seg = { .Start = { .Addr = 0 }, .Size = 16 };
+
+    But compiler gives me
+
+      sorry, unimplemented: non-trivial designated initializers not supported
+
+    So reverted to
+
+      TMemorySegment Seg = { { 0 }, .Size = 16 };
+*/
 
 /*
   2024-05-27

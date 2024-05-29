@@ -5,7 +5,10 @@
   Last mod.: 2024-05-27
 */
 
-// Data structures is the base. Algorithms just spawn on them like plant species.
+/*
+  Data structures is the base substrate. Algorithms just spawn on them
+  like plant species.
+*/
 
 #pragma once
 
@@ -28,7 +31,11 @@ namespace me_MemorySegment
   */
   struct TMemorySegment
   {
-    TMemoryPoint Start;
+    union
+    {
+      TMemoryPoint Start;
+      TUint_1 * Bytes;
+    };
     TUint_2 Size;
 
     // Print segment range to stdout

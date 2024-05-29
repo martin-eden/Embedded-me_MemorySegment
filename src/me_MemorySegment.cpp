@@ -54,7 +54,7 @@ TBool me_MemorySegment::GetByte(
   if (Offset + 1 > Segment.Size)
     return false;
 
-  *Byte = Segment.Start.Bytes[Offset];
+  *Byte = Segment.Bytes[Offset];
 
   return true;
 }
@@ -69,12 +69,11 @@ TBool me_MemorySegment::GetByte(
 */
 void TMemorySegment::PrintWrappings()
 {
-  printf(
-    "[0x%04X](Start 0x%04X Size %u)",
-    (TUint_2) this,
-    Start.Addr,
-    Size
-  );
+  printf("[0x%04X]", (TUint_2) this);
+  printf("( Start ");
+  Start.PrintWrappings();
+  printf(" Size %u", Size);
+  printf(" )");
 }
 
 /*
@@ -83,7 +82,7 @@ void TMemorySegment::PrintWrappings()
 void TMemorySegment::PrintMem()
 {
   for (TUint_2 Offset = 0; Offset < Size; ++Offset)
-    fputc(Start.Bytes[Offset], stdout);
+    fputc(Bytes[Offset], stdout);
 }
 
 /*
@@ -156,7 +155,7 @@ TBool me_MemorySegment::TMemorySegment::CopyMemTo(TMemorySegment Dest)
   }
 
   for (TUint_2 Offset = 0; Offset < Size; ++Offset)
-    Dest.Start.Bytes[Offset] = this->Start.Bytes[Offset];
+    Dest.Bytes[Offset] = this->Bytes[Offset];
 
   return true;
 }
@@ -185,7 +184,7 @@ TBool me_MemorySegment::TMemorySegment::CopyMemFrom(TMemorySegment Src)
 void me_MemorySegment::TMemorySegment::ZeroMem()
 {
   for (TUint_2 Offset = 0; Offset < Size; ++Offset)
-    Start.Bytes[Offset] = 0;
+    Bytes[Offset] = 0;
 }
 
 /*
