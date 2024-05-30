@@ -38,6 +38,9 @@ namespace me_MemorySegment
     };
     TUint_2 Size;
 
+    // Zeroing constructor
+    TMemorySegment();
+
     // Print segment range to stdout
     void PrintWrappings();
     // Print raw bytes of memory in range to stdout

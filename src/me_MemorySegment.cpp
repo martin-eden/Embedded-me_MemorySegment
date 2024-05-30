@@ -22,6 +22,23 @@ using
   me_MemorySegment::TMemorySegment;
 
 /*
+  Zeroing constructor
+
+  Sometimes I hate C for their design decisions.
+
+  Memory is not initialized, random values. So everyone needs
+  to write such constructors.
+
+  Reducing coefficient at O(1) operation and doing O(M) memory
+  copies because item argument data will die sooner than container.
+*/
+TMemorySegment::TMemorySegment()
+{
+  Start.Addr = 0;
+  Size = 0;
+}
+
+/*
   Get byte from segment by given offset.
 
   Why
@@ -69,7 +86,7 @@ TBool me_MemorySegment::GetByte(
 */
 void TMemorySegment::PrintWrappings()
 {
-  printf("[0x%04X]", (TUint_2) this);
+  printf("[TMemorySegment 0x%04X]", (TUint_2) this);
   printf("( Start ");
   Start.PrintWrappings();
   printf(" Size %u", Size);
