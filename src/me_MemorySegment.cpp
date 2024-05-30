@@ -152,9 +152,9 @@ TMemorySegment me_MemorySegment::FromAsciiz(const TChar * Asciiz)
 */
 TBool me_MemorySegment::TMemorySegment::CopyMemTo(TMemorySegment Dest)
 {
-  TUint_2 Size = min(Dest.Size, this->Size);
+  TUint_2 MinSize = min(Dest.Size, this->Size);
 
-  if (Size == 0)
+  if (MinSize == 0)
     // Job done!
     return true;
 
@@ -166,19 +166,19 @@ TBool me_MemorySegment::TMemorySegment::CopyMemTo(TMemorySegment Dest)
 
     if (DestStart < OurStart)
     {
-      TUint_2 DestFinish = Dest.Start.Addr + Size - 1;
+      TUint_2 DestFinish = Dest.Start.Addr + MinSize - 1;
       if (DestFinish >= OurStart)
         return false;
     }
     else if (OurStart <= DestStart)
     {
-      TUint_2 OurFinish = this->Start.Addr + Size - 1;
+      TUint_2 OurFinish = this->Start.Addr + MinSize - 1;
       if (OurFinish >= DestStart)
         return false;
     }
   }
 
-  for (TUint_2 Offset = 0; Offset < Size; ++Offset)
+  for (TUint_2 Offset = 0; Offset < MinSize; ++Offset)
     Dest.Bytes[Offset] = this->Bytes[Offset];
 
   return true;
