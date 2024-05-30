@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-05-29
+  Last mod.: 2024-05-30
 */
 
 /*
@@ -54,6 +54,9 @@ namespace me_MemorySegment
     TBool ReserveChunk();
     // Release block of memory
     TBool ReleaseChunk();
+
+    // Allocate and copy memory from another segment
+    TBool CloneFrom(TMemorySegment Src);
   };
 
   // Get byte from segment by given offset
@@ -91,4 +94,5 @@ namespace me_MemorySegment
   2024-05-23 GetByte
   2024-05-25 PrintWrappings, PrintMem, CopyMemTo, Spawn, Kill
   2024-05-27 ReserveChunk, ReleaseChunk, ZeroMem
+  2024-05-30 CloneFrom
 */

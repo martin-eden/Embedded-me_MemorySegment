@@ -174,6 +174,39 @@ TBool me_MemorySegment::TMemorySegment::CopyMemFrom(TMemorySegment Src)
 }
 
 /*
+  Allocate and copy memory from another segment.
+
+  We assume the memory is "ours". We free previous span, allocate
+  new span and copy memory from <Src> there.
+
+  Now it's _your responsibility_ to call .ReleaseChunk() before
+  death of this object.
+*/
+TBool me_MemorySegment::TMemorySegment::CloneFrom(TMemorySegment Src)
+{
+  // ReleaseChunk() returns false when .Addr = 0. That's fine.
+  ReleaseChunk();
+
+  Start.Addr = 0;
+  Size = Src.Size;
+
+  if (!ReserveChunk())
+    return false;
+
+  if (!CopyMemFrom(Src))
+  {
+    /*
+      Theoretically CopyMemFrom() fails when our span intersects with
+      <Src>. Practically it's unlikely but anyway.
+    */
+    ReleaseChunk();
+    return false;
+  }
+
+  return true;
+}
+
+/*
   Fill memory span with zero byte.
 
   We imply that memory is "ours", so we can write there
@@ -232,4 +265,5 @@ TBool me_MemorySegment::Kill(TMemorySegment * Segment)
 /*
   2024-05-23 GetByte
   2024-05-25 PrintWrappings, PrintMem, CopyMemTo, Spawn, Kill
+  2024-05-30 CloneFrom
 */
