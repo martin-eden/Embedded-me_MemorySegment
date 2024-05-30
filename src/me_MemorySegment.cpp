@@ -26,11 +26,11 @@ using
 
   Sometimes I hate C for their design decisions.
 
-  Memory is not initialized, random values. So everyone needs
-  to write such constructors.
+    Memory is not initialized, random values. So everyone needs to
+    write such constructors.
 
-  Reducing coefficient at O(1) operation and doing O(M) memory
-  copies because item argument data will die sooner than container.
+    Reducing coefficient at O(1) operation. Micromanagement at it's
+    glory!
 */
 TMemorySegment::TMemorySegment()
 {
