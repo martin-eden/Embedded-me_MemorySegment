@@ -68,6 +68,7 @@ namespace me_MemorySegment
 
   // Describe ASCIIZ structure as memory segment
   TMemorySegment FromAsciiz(TChar * Asciiz);
+  TMemorySegment FromAsciiz(const TChar * Asciiz); // <3 U C
 
   // Allocate memory for structure
   TBool Spawn(TMemorySegment * * Segment);
