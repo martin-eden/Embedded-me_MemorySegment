@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-05-29
+  Last mod.: 2024-06-01
 */
 
 #include "me_MemorySegment.h"
@@ -39,44 +39,6 @@ TMemorySegment::TMemorySegment()
 }
 
 /*
-  Get byte from segment by given offset.
-
-  Why
-
-    Yes, you can read and modify any byte from segment like
-    "Segment.Start.Bytes[0] = Segment.Start.Bytes[1]".
-    And beyond segment.
-
-    That's the problem. Lacking of implementation of conceptual
-    integrity. Not because of security, not because of stability,
-    but for design.
-
-    Besides, your code will become simpler as you do not need
-    to worry about checking range when getting data.
-*/
-TBool me_MemorySegment::GetByte(
-  TUint_1 * Byte,
-  TMemorySegment Segment,
-  TUint_2 Offset
-)
-{
-  const TUint_2 MaxUi2 = 0xFFFF;
-  /*
-    Offset is zero based, so offset 0xFFFF covers range of 0x10000 bytes.
-    Size field can not hold that much.
-  */
-  if (Offset == MaxUi2)
-    return false;
-
-  if (Offset + 1 > Segment.Size)
-    return false;
-
-  *Byte = Segment.Bytes[Offset];
-
-  return true;
-}
-
-/*
   Print data describing memory segment to stdout.
 
   Useful for verification.
@@ -100,6 +62,39 @@ void TMemorySegment::Print()
 {
   for (TUint_2 Offset = 0; Offset < Size; ++Offset)
     fputc(Bytes[Offset], stdout);
+}
+
+/*
+  Get byte from segment by given offset.
+
+  Why
+
+    Yes, you can read and modify any byte from segment like
+    "Segment.Bytes[0] = Segment.Bytes[1]". And beyond segment.
+
+    That's the problem. Lacking of implementation of conceptual
+    integrity. Not because of security, not because of stability,
+    but for design.
+
+    Besides, your code will become simpler as you do not need
+    to worry about checking range when getting data.
+*/
+TBool TMemorySegment::GetByte(TUint_1 * Byte, TUint_2 Offset)
+{
+  const TUint_2 MaxUi2 = 0xFFFF;
+  /*
+    Offset is zero based, so offset 0xFFFF covers range of 0x10000 bytes.
+    Size field can not hold that much.
+  */
+  if (Offset == MaxUi2)
+    return false;
+
+  if (Offset + 1 > Size)
+    return false;
+
+  *Byte = Bytes[Offset];
+
+  return true;
 }
 
 /*
@@ -150,9 +145,9 @@ TMemorySegment me_MemorySegment::FromAsciiz(const TChar * Asciiz)
       ~~     we    --> nah
      ~~~~~   them
 */
-TBool me_MemorySegment::TMemorySegment::CopyMemTo(TMemorySegment Dest)
+TBool TMemorySegment::CopyMemTo(TMemorySegment * Dest)
 {
-  TUint_2 MinSize = min(Dest.Size, this->Size);
+  TUint_2 MinSize = min(Dest->Size, this->Size);
 
   if (MinSize == 0)
     // Job done!
@@ -161,12 +156,12 @@ TBool me_MemorySegment::TMemorySegment::CopyMemTo(TMemorySegment Dest)
   // Return false if data would intersect
   {
     TUint_2
-      DestStart = Dest.Start.Addr,
+      DestStart = Dest->Start.Addr,
       OurStart = this->Start.Addr;
 
     if (DestStart < OurStart)
     {
-      TUint_2 DestFinish = Dest.Start.Addr + MinSize - 1;
+      TUint_2 DestFinish = Dest->Start.Addr + MinSize - 1;
       if (DestFinish >= OurStart)
         return false;
     }
@@ -179,7 +174,7 @@ TBool me_MemorySegment::TMemorySegment::CopyMemTo(TMemorySegment Dest)
   }
 
   for (TUint_2 Offset = 0; Offset < MinSize; ++Offset)
-    Dest.Bytes[Offset] = this->Bytes[Offset];
+    Dest->Bytes[Offset] = this->Bytes[Offset];
 
   return true;
 }
@@ -192,9 +187,9 @@ TBool me_MemorySegment::TMemorySegment::CopyMemTo(TMemorySegment Dest)
 
   Commutativeness is a nice property.
 */
-TBool me_MemorySegment::TMemorySegment::CopyMemFrom(TMemorySegment Src)
+TBool TMemorySegment::CopyMemFrom(TMemorySegment * Src)
 {
-  return Src.CopyMemTo((*this));
+  return Src->CopyMemTo((this));
 }
 
 /*
@@ -206,13 +201,13 @@ TBool me_MemorySegment::TMemorySegment::CopyMemFrom(TMemorySegment Src)
   Now it's _your responsibility_ to call .ReleaseChunk() before
   death of this object.
 */
-TBool me_MemorySegment::TMemorySegment::CloneFrom(TMemorySegment Src)
+TBool TMemorySegment::CloneFrom(TMemorySegment * Src)
 {
   // ReleaseChunk() returns false when .Addr = 0. That's fine.
   ReleaseChunk();
 
   Start.Addr = 0;
-  Size = Src.Size;
+  Size = Src->Size;
 
   if (!ReserveChunk())
     return false;
@@ -238,7 +233,7 @@ TBool me_MemorySegment::TMemorySegment::CloneFrom(TMemorySegment Src)
 
   This function is called from ReserveChunk() and ReleaseChunk().
 */
-void me_MemorySegment::TMemorySegment::ZeroMem()
+void TMemorySegment::ZeroMem()
 {
   for (TUint_2 Offset = 0; Offset < Size; ++Offset)
     Bytes[Offset] = 0;

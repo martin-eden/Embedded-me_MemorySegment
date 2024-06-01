@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-05-30
+  Last mod.: 2024-06-01
 */
 
 /*
@@ -52,10 +52,13 @@ namespace me_MemorySegment
     // Print raw bytes of memory in range to stdout
     void Print();
 
+    // Get byte from segment by given offset
+    TBool GetByte(TUint_1 * Byte, TUint_2 Offset);
+
     // Copy memory to another segment
-    TBool CopyMemTo(TMemorySegment Dest);
+    TBool CopyMemTo(TMemorySegment * Dest);
     // Copy memory from another segment
-    TBool CopyMemFrom(TMemorySegment Src);
+    TBool CopyMemFrom(TMemorySegment * Src);
     // Fill memory with zeroes
     void ZeroMem();
 
@@ -65,15 +68,8 @@ namespace me_MemorySegment
     TBool ReleaseChunk();
 
     // Allocate and copy memory from another segment
-    TBool CloneFrom(TMemorySegment Src);
+    TBool CloneFrom(TMemorySegment * Src);
   };
-
-  // Get byte from segment by given offset
-  TBool GetByte(
-    TUint_1 * Byte,
-    TMemorySegment Segment,
-    TUint_2 Offset
-  );
 
   // Describe ASCIIZ structure as memory segment
   TMemorySegment FromAsciiz(TChar * Asciiz);

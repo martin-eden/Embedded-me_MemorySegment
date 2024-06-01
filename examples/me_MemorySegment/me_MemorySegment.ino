@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-05-29
+  Last mod.: 2024-06-01
 */
 
 #include <me_MemorySegment.h>
@@ -52,9 +52,12 @@ void Test()
   printf(" )\n");
 
   /*
-    Now the hard part. Heap memory.
+    Now the harder part. Heap memory.
 
     We will create copy of <MessageSeg> in heap. Then will free it.
+
+    Creating a copy is common functionality over .ReserveChunk() and
+    .CopyMemFrom(). It is implemented in .CloneFrom().
   */
   TMemorySegment * MessageSeg_Copy;
 
@@ -66,22 +69,11 @@ void Test()
   }
   printf("Spawned at [0x%04X].\n", (TUint_2) MessageSeg_Copy);
 
-  // Allocate mem for data
-  MessageSeg_Copy->Start.Addr = 0;
-  MessageSeg_Copy->Size = MessageSeg.Size;
-  if (!MessageSeg_Copy->ReserveChunk())
+  if (!MessageSeg_Copy->CloneFrom(&MessageSeg))
   {
-    printf("No mem for data copy.\n");
+    printf("Failed to clone segment. Probably, no memory.\n");
     Kill(MessageSeg_Copy);
-    return;
   }
-  printf(
-    "Allocated memory for copy at [0x%04X].\n",
-    MessageSeg_Copy->Start.Addr
-  );
-
-  // Copy data
-  MessageSeg_Copy->CopyMemFrom(MessageSeg);
 
   printf("MessageSeg_Copy-Segment( ");
   MessageSeg_Copy->PrintWrappings();
@@ -99,15 +91,6 @@ void Test()
     return;
   }
   printf("Freed data memory.\n");
-
-  // Data after free should be zeroes
-  printf("MessageSeg_Copy-Segment( ");
-  MessageSeg_Copy->PrintWrappings();
-  printf(" )\n");
-
-  printf("MessageSeg_Copy-Mem( ");
-  MessageSeg_Copy->Print();
-  printf(" )\n");
 
   // Free node
   if (!Kill(MessageSeg_Copy))
