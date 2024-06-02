@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-06-01
+  Last mod.: 2024-06-02
 */
 
 /*
@@ -28,12 +28,6 @@ namespace me_MemorySegment
 
   /*
     Memory span with byte granularity
-
-    TO DO:
-      Change arguments from TMemorySegment to "TMemorySegment *".
-      Or else they are copied and destructors are called.
-      Destructor for copy of object which deallocates memory
-      is real destructive.
   */
   struct TMemorySegment
   {
