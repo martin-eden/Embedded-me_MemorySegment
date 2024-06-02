@@ -226,6 +226,17 @@ TBool TMemorySegment::CloneFrom(TMemorySegment * Src)
 }
 
 /*
+  Clone memory from ASCIIZ structure
+*/
+TBool TMemorySegment::CloneFrom(const TChar * Asciiz)
+{
+  // Avoiding compiler's warning about temporary address
+  TMemorySegment MemSeg;
+  MemSeg = FromAsciiz(Asciiz);
+  return CloneFrom(&MemSeg);
+}
+
+/*
   Fill memory span with zero byte.
 
   We imply that memory is "ours", so we can write there

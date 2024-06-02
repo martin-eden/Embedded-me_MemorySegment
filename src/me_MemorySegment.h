@@ -63,6 +63,7 @@ namespace me_MemorySegment
 
     // Allocate and copy memory from another segment
     TBool CloneFrom(TMemorySegment * Src);
+    TBool CloneFrom(const TChar * Asciiz);
   };
 
   // Describe ASCIIZ structure as memory segment
