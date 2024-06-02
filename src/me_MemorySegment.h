@@ -57,24 +57,14 @@ namespace me_MemorySegment
     void ZeroMem();
 
     // Reserve block of memory
-    TBool ReserveChunk();
+    TBool Reserve(TUint_2 SegSize);
     // Release block of memory
-    TBool ReleaseChunk();
-
-    // Allocate and copy memory from another segment
-    TBool CloneFrom(TMemorySegment * Src);
-    TBool CloneFrom(const TChar * Asciiz);
+    TBool Release();
   };
 
   // Describe ASCIIZ structure as memory segment
   TMemorySegment FromAsciiz(TChar * Asciiz);
   TMemorySegment FromAsciiz(const TChar * Asciiz); // <3 U C
-
-  // Allocate memory for structure
-  TBool Spawn(TMemorySegment * * Segment);
-
-  // Deallocate memory with structure
-  TBool Kill(TMemorySegment * Segment);
 
   using me_MemoryPoint::TMemoryPoint_Bits;
 

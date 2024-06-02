@@ -20,9 +20,7 @@ void setup()
   InstallStandardStreams();
 
   printf("[me_MemorySegment.DynamicMemory] Okay, we are here.\n");
-
   Test();
-
   printf("Done.\n.\n");
 }
 
@@ -32,11 +30,8 @@ void loop()
 
 using
   me_BaseTypes::TBool,
-  me_BaseTypes::TUint_1;
-
-// Forwards:
-TBool VerboseReserve(me_MemorySegment::TMemorySegment * MemSeg);
-TBool VerboseRelease(me_MemorySegment::TMemorySegment * MemSeg);
+  me_BaseTypes::TUint_1,
+  me_BaseTypes::TUint_2;
 
 void Test()
 {
@@ -52,9 +47,9 @@ void Test()
       <.Size> before ReserveChunk().
     */
     TMemorySegment Seg;
-    Seg.Size = 16;
+    TUint_2 SegSize = 16;
 
-    VerboseReserve(&Seg);
+    VerboseReserve(&Seg, SegSize);
     VerboseRelease(&Seg);
 
     printf("--\n");
@@ -70,12 +65,7 @@ void Test()
     const TUint_1 ChunkSize = 14;
     for (TUint_1 NumAllocated = 0; NumAllocated < NumSegments; ++NumAllocated)
     {
-      TMemorySegment * CurSegment = &(Segments[NumAllocated]);
-
-      CurSegment->Start.Addr = 0;
-      CurSegment->Size = ChunkSize;
-
-      if (!VerboseReserve(&Segments[NumAllocated]))
+      if (!VerboseReserve(&Segments[NumAllocated], ChunkSize))
         return;
     }
 
@@ -91,15 +81,16 @@ void Test()
 }
 
 me_BaseTypes::TBool VerboseReserve(
-  me_MemorySegment::TMemorySegment * MemSeg
+  me_MemorySegment::TMemorySegment * MemSeg,
+  me_BaseTypes::TUint_2 SegSize
 )
 {
   MemSeg->PrintWrappings();
   printf(" -> ");
 
-  if (!MemSeg->ReserveChunk())
+  if (!MemSeg->Reserve(SegSize))
   {
-    printf("ReserveChunk() failed.\n");
+    printf("Reserve() failed.\n");
     MemSeg->PrintWrappings();
     return false;
   }
@@ -117,9 +108,9 @@ me_BaseTypes::TBool VerboseRelease(
   MemSeg->PrintWrappings();
   printf(" -> ");
 
-  if (!MemSeg->ReleaseChunk())
+  if (!MemSeg->Release())
   {
-    printf("ReleaseChunk() failed.\n");
+    printf("Release() failed.\n");
     MemSeg->PrintWrappings();
     return false;
   }
@@ -132,4 +123,5 @@ me_BaseTypes::TBool VerboseRelease(
 
 /*
   2024-05-27
+  2024-06-02
 */

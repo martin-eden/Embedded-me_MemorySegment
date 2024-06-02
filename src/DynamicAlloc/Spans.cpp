@@ -10,12 +10,16 @@
   Memory span is zeroed after allocation. Memory span is zeroed
   before release.
 
-  Reserve memory block of <.Size>:
+  Reserve memory block of <Size> bytes:
 
-    bool .Reserve()
+    bool .Reserve(<Size>)
 
-    Before: <.Start.Addr> = 0
-    After: <.Start.Addr> != 0
+    Before:
+      <.Start.Addr> = 0
+      <.Size> = 0
+    After:
+      <.Start.Addr> != 0
+      <.Size> = <Size>
 
   Free memory block by address <.Start.Addr>:
 
@@ -31,7 +35,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-05-27
+  Last mod.: 2024-06-02
 */
 
 #include "me_MemorySegment.h"
@@ -50,27 +54,35 @@ using
 
   Implemented as wrapper over malloc().
 
-  ASSERT YEP <.Start.Addr> = 0 // That's for safety.
-  ASSERT NAH <.Size> = 0 // That's for sanity.
+  Before:
 
-  After malloc():
+    <.Start.Addr> = 0
+    <.Size> = 0
+    <SegSize> != 0
 
-    <.Start.Addr> = Addr
+  After:
+
+    <.Start.Addr> = ...
+    <.Size> = <SegSize>
 */
-TBool TMemorySegment::ReserveChunk()
+TBool TMemorySegment::Reserve(TUint_2 SegSize)
 {
   if (Start.Addr != 0)
     return false;
 
-  if (Size == 0)
+  if (Size != 0)
     return false;
 
-  TUint_2 MallocAddr = (TUint_2) malloc(Size);
+  if (SegSize == 0)
+    return false;
+
+  TUint_2 MallocAddr = (TUint_2) malloc(SegSize);
 
   if (MallocAddr == 0)
     return false;
 
   Start.Addr = MallocAddr;
+  Size = SegSize;
 
   ZeroMem();
 
@@ -82,15 +94,17 @@ TBool TMemorySegment::ReserveChunk()
 
   Implemented as wrapper over free().
 
-  ASSERT NAH <.Start.Addr> = 0 // That's for safety.
-  ASSERT NAH <.Size> = 0 // That's for sanity.
+  Before:
 
-  After free():
+    <.Start.Addr> != 0
+    <.Size> != 0
+
+  After:
 
     <.Start.Addr> = 0
     <.Size> = 0
 */
-TBool TMemorySegment::ReleaseChunk()
+TBool TMemorySegment::Release()
 {
   if (Start.Addr == 0)
     return false;
@@ -110,4 +124,5 @@ TBool TMemorySegment::ReleaseChunk()
 
 /*
   2024-05-27
+  2024-06-02
 */

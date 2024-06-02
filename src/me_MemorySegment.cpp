@@ -193,50 +193,6 @@ TBool TMemorySegment::CopyMemFrom(TMemorySegment * Src)
 }
 
 /*
-  Allocate and copy memory from another segment.
-
-  We assume the memory is "ours". We free previous span, allocate
-  new span and copy memory from <Src> there.
-
-  Now it's _your responsibility_ to call .ReleaseChunk() before
-  death of this object.
-*/
-TBool TMemorySegment::CloneFrom(TMemorySegment * Src)
-{
-  // ReleaseChunk() returns false when .Addr = 0. That's fine.
-  ReleaseChunk();
-
-  Start.Addr = 0;
-  Size = Src->Size;
-
-  if (!ReserveChunk())
-    return false;
-
-  if (!CopyMemFrom(Src))
-  {
-    /*
-      Theoretically CopyMemFrom() fails when our span intersects with
-      <Src>. Practically it's unlikely but anyway.
-    */
-    ReleaseChunk();
-    return false;
-  }
-
-  return true;
-}
-
-/*
-  Clone memory from ASCIIZ structure
-*/
-TBool TMemorySegment::CloneFrom(const TChar * Asciiz)
-{
-  // Avoiding compiler's warning about temporary address
-  TMemorySegment MemSeg;
-  MemSeg = FromAsciiz(Asciiz);
-  return CloneFrom(&MemSeg);
-}
-
-/*
   Fill memory span with zero byte.
 
   We imply that memory is "ours", so we can write there
@@ -248,48 +204,6 @@ void TMemorySegment::ZeroMem()
 {
   for (TUint_2 Offset = 0; Offset < Size; ++Offset)
     Bytes[Offset] = 0;
-}
-
-/*
-  Allocate memory for structure
-
-  We are allocating four bytes. Memory for structure.
-
-  We are receiving address where we should write address of structure.
-  I hate C.
-*/
-TBool me_MemorySegment::Spawn(TMemorySegment * * Segment)
-{
-  /*
-    Use memory segment to allocate memory segment!
-
-    Because I want only one place in my code with malloc()/free().
-
-    <TransientSeg> dies when function ends. But it will point
-    argument to address it received from ReserveChunk() before death.
-  */
-  TMemorySegment TransientSeg;
-
-  TransientSeg.Start.Addr = 0;
-  TransientSeg.Size = sizeof(TMemorySegment);
-
-  if (!TransientSeg.ReserveChunk())
-    return false;
-
-  *Segment = (TMemorySegment*) TransientSeg.Start.Addr;
-
-  return true;
-}
-
-// Deallocate memory with structure
-TBool me_MemorySegment::Kill(TMemorySegment * Segment)
-{
-  TMemorySegment TransientSeg;
-
-  TransientSeg.Start.Addr = (TUint_2) Segment;
-  TransientSeg.Size = sizeof(TMemorySegment);
-
-  return TransientSeg.ReleaseChunk();
 }
 
 /*
