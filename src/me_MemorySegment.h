@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-06-02
+  Last mod.: 2024-06-04
 */
 
 /*
@@ -33,13 +33,13 @@ namespace me_MemorySegment
   {
     union
     {
-      TMemoryPoint Start;
+      TMemoryPoint Start = { .Addr = 0 };
       TUint_1 * Bytes;
     };
-    TUint_2 Size;
+    TUint_2 Size = 0;
 
-    // Zeroing constructor
-    TMemorySegment();
+    // Zeroing destructor
+    ~TMemorySegment();
 
     // Print segment range to stdout
     void PrintWrappings();
@@ -86,4 +86,6 @@ namespace me_MemorySegment
   2024-05-25 PrintWrappings, PrintMem, CopyMemTo, Spawn, Kill
   2024-05-27 ReserveChunk, ReleaseChunk, ZeroMem
   2024-05-30 CloneFrom
+  2024-06-02 < CloneFrom
+  2024-06-04
 */

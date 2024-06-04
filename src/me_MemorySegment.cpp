@@ -22,17 +22,22 @@ using
   me_MemorySegment::TMemorySegment;
 
 /*
-  Zeroing constructor
+  Zeroing destructor
+
+  Zeroing constructor is implemented via struct definition.
 
   Sometimes I hate C for their design decisions.
 
-    Memory is not initialized, random values. So everyone needs to
-    write such constructors.
-
     Reducing coefficient at O(1) operation. Micromanagement at it's
     glory!
+
+    Memory is not initialized, random values. So you can't read anything
+    until you set fields.
+
+    Upon destruction of object memory is not reset. Hello script kiddies
+    skimming stack and heap for data.
 */
-TMemorySegment::TMemorySegment()
+TMemorySegment::~TMemorySegment()
 {
   Start.Addr = 0;
   Size = 0;
