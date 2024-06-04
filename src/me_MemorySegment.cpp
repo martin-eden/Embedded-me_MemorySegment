@@ -150,9 +150,9 @@ TMemorySegment me_MemorySegment::FromAsciiz(const TChar * Asciiz)
       ~~     we    --> nah
      ~~~~~   them
 */
-TBool TMemorySegment::CopyMemTo(TMemorySegment * Dest)
+TBool TMemorySegment::CopyMemTo(TMemorySegment Dest)
 {
-  TUint_2 MinSize = min(Dest->Size, this->Size);
+  TUint_2 MinSize = min(Dest.Size, Size);
 
   if (MinSize == 0)
     // Job done!
@@ -161,25 +161,25 @@ TBool TMemorySegment::CopyMemTo(TMemorySegment * Dest)
   // Return false if data would intersect
   {
     TUint_2
-      DestStart = Dest->Start.Addr,
-      OurStart = this->Start.Addr;
+      DestStart = Dest.Start.Addr,
+      OurStart = Start.Addr;
 
     if (DestStart < OurStart)
     {
-      TUint_2 DestFinish = Dest->Start.Addr + MinSize - 1;
+      TUint_2 DestFinish = Dest.Start.Addr + MinSize - 1;
       if (DestFinish >= OurStart)
         return false;
     }
     else if (OurStart <= DestStart)
     {
-      TUint_2 OurFinish = this->Start.Addr + MinSize - 1;
+      TUint_2 OurFinish = Start.Addr + MinSize - 1;
       if (OurFinish >= DestStart)
         return false;
     }
   }
 
   for (TUint_2 Offset = 0; Offset < MinSize; ++Offset)
-    Dest->Bytes[Offset] = this->Bytes[Offset];
+    Dest.Bytes[Offset] = Bytes[Offset];
 
   return true;
 }
@@ -192,9 +192,9 @@ TBool TMemorySegment::CopyMemTo(TMemorySegment * Dest)
 
   Commutativeness is a nice property.
 */
-TBool TMemorySegment::CopyMemFrom(TMemorySegment * Src)
+TBool TMemorySegment::CopyMemFrom(TMemorySegment Src)
 {
-  return Src->CopyMemTo((this));
+  return Src.CopyMemTo(*this);
 }
 
 /*

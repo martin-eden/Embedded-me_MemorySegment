@@ -50,9 +50,9 @@ namespace me_MemorySegment
     TBool GetByte(TUint_1 * Byte, TUint_2 Offset);
 
     // Copy memory to another segment
-    TBool CopyMemTo(TMemorySegment * Dest);
+    TBool CopyMemTo(TMemorySegment Dest);
     // Copy memory from another segment
-    TBool CopyMemFrom(TMemorySegment * Src);
+    TBool CopyMemFrom(TMemorySegment Src);
     // Fill memory with zeroes
     void ZeroMem();
 
