@@ -2,11 +2,11 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-06-07
+  Last mod.: 2024-06-08
 */
 
 /*
-  Data structures is the base substrate. Algorithms just spawn on them
+  Data structures is the base substrate. Algorithms grow on them
   like plant species.
 */
 
@@ -57,6 +57,8 @@ namespace me_MemorySegment
     void ZeroMem();
     // Compare for equality
     TBool IsEqualTo(TMemorySegment Another);
+    // Compare for equality with ASCIIZ
+    TBool IsEqualTo(const TChar * Asciiz);
 
     // Reserve block of memory
     TBool Reserve(TUint_2 SegSize);
@@ -91,4 +93,5 @@ namespace me_MemorySegment
   2024-06-02 < CloneFrom
   2024-06-04
   2024-06-07 IsEqualTo
+  2024-06-08 IsEqualTo.Asciiz
 */

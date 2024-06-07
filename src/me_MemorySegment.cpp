@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-06-07
+  Last mod.: 2024-06-08
 */
 
 #include "me_MemorySegment.h"
@@ -190,7 +190,7 @@ void TMemorySegment::ZeroMem()
 /*
   Compare for equality
 
-  I do not need fancy tri-state comparisons.
+  I don't need fancy tri-state comparisons.
 */
 TBool TMemorySegment::IsEqualTo(TMemorySegment Another)
 {
@@ -202,6 +202,15 @@ TBool TMemorySegment::IsEqualTo(TMemorySegment Another)
       return false;
 
   return true;
+}
+
+/*
+  Compare for equality with ASCIIZ
+*/
+TBool TMemorySegment::IsEqualTo(const TChar * Asciiz)
+{
+  TMemorySegment AsciizMem = FromAsciiz(Asciiz);
+  return IsEqualTo(AsciizMem);
 }
 
 /*
