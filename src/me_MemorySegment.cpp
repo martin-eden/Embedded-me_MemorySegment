@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-06-01
+  Last mod.: 2024-06-07
 */
 
 #include "me_MemorySegment.h"
@@ -132,27 +132,16 @@ TMemorySegment me_MemorySegment::FromAsciiz(const TChar * Asciiz)
   Copy data to another segment.
 
   We DO NOT allocate any memory. We just copy data described
-  by our segment to memory span described by destination segment.
+  by source segment to our memory span.
 
-  Destination segment may be shorter than ours.
-
-  Post-condition: memory data in segment described by <Dest>
-  is same as ours.
-
-  ^ This means that <Dest> segment _may intersect_ with us as long
-  as data do not intersect:
-
-    .......  mem
-       ~~    we    --> okay
-     ~~~~~   them
-
-    .......  mem
-      ~~     we    --> nah
-     ~~~~~   them
+  Segments must be same size and should not intersect.
 */
-TBool TMemorySegment::CopyMemTo(TMemorySegment Dest)
+TBool TMemorySegment::CopyMemFrom(TMemorySegment Src)
 {
-  TUint_2 MinSize = min(Dest.Size, Size);
+  if (Src.Size != Size)
+    return false;
+
+  TUint_2 MinSize = min(Src.Size, Size);
 
   if (MinSize == 0)
     // Job done!
@@ -161,40 +150,27 @@ TBool TMemorySegment::CopyMemTo(TMemorySegment Dest)
   // Return false if data would intersect
   {
     TUint_2
-      DestStart = Dest.Start.Addr,
+      SrcStart = Src.Start.Addr,
       OurStart = Start.Addr;
 
-    if (DestStart < OurStart)
+    if (SrcStart < OurStart)
     {
-      TUint_2 DestFinish = Dest.Start.Addr + MinSize - 1;
-      if (DestFinish >= OurStart)
+      TUint_2 SrcFinish = Src.Start.Addr + MinSize - 1;
+      if (SrcFinish >= OurStart)
         return false;
     }
-    else if (OurStart <= DestStart)
+    else if (OurStart <= SrcStart)
     {
       TUint_2 OurFinish = Start.Addr + MinSize - 1;
-      if (OurFinish >= DestStart)
+      if (OurFinish >= SrcStart)
         return false;
     }
   }
 
   for (TUint_2 Offset = 0; Offset < MinSize; ++Offset)
-    Dest.Bytes[Offset] = Bytes[Offset];
+    Bytes[Offset] = Src.Bytes[Offset];
 
   return true;
-}
-
-/*
-  Copy memory _from_ another segment.
-
-  Because I don't know which way of writing "copy" is right:
-  CopyTo() or CopyFrom().
-
-  Commutativeness is a nice property.
-*/
-TBool TMemorySegment::CopyMemFrom(TMemorySegment Src)
-{
-  return Src.CopyMemTo(*this);
 }
 
 /*
@@ -231,6 +207,10 @@ TBool TMemorySegment::IsEqualTo(TMemorySegment Another)
 /*
   2024-05-23 GetByte
   2024-05-25 PrintWrappings, PrintMem, CopyMemTo, Spawn, Kill
+  2024-05-27 CopyMemFrom
   2024-05-30 CloneFrom
-  2024-06-07 Less advanced CopyMemTo. IsEqualTo
+  2024-06-07
+    [/] CopyMemFrom is now main code. Stricter requirements.
+    [-] CopyMemTo
+    [+] IsEqualTo
 */
