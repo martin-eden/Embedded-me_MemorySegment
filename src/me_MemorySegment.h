@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-06-04
+  Last mod.: 2024-06-07
 */
 
 /*
@@ -55,6 +55,8 @@ namespace me_MemorySegment
     TBool CopyMemFrom(TMemorySegment Src);
     // Fill memory with zeroes
     void ZeroMem();
+    // Compare for equality
+    TBool IsEqualTo(TMemorySegment Another);
 
     // Reserve block of memory
     TBool Reserve(TUint_2 SegSize);
@@ -88,4 +90,5 @@ namespace me_MemorySegment
   2024-05-30 CloneFrom
   2024-06-02 < CloneFrom
   2024-06-04
+  2024-06-07 IsEqualTo
 */

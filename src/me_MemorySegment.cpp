@@ -212,7 +212,25 @@ void TMemorySegment::ZeroMem()
 }
 
 /*
+  Compare for equality
+
+  I do not need fancy tri-state comparisons.
+*/
+TBool TMemorySegment::IsEqualTo(TMemorySegment Another)
+{
+  if (Another.Size != Size)
+    return false;
+
+  for (TUint_2 Offset = 0; Offset < Size; ++Offset)
+    if (Another.Bytes[Offset] != Bytes[Offset])
+      return false;
+
+  return true;
+}
+
+/*
   2024-05-23 GetByte
   2024-05-25 PrintWrappings, PrintMem, CopyMemTo, Spawn, Kill
   2024-05-30 CloneFrom
+  2024-06-07 Less advanced CopyMemTo. IsEqualTo
 */
