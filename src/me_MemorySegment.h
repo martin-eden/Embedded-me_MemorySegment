@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-06-08
+  Last mod.: 2024-09-12
 */
 
 /*
@@ -17,12 +17,6 @@
 
 namespace me_MemorySegment
 {
-  using
-    me_BaseTypes::TBool,
-    me_BaseTypes::TUint_1,
-    me_BaseTypes::TUint_2,
-    me_BaseTypes::TChar;
-
   using
     me_MemoryPoint::TMemoryPoint;
 

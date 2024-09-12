@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-06-08
+  Last mod.: 2024-09-12
 */
 
 #include "me_MemorySegment.h"
@@ -12,11 +12,6 @@
 #include <Arduino.h> // min() macro lol for CopyMemTo()
 
 #include <me_BaseTypes.h>
-
-using
-  me_BaseTypes::TUint_1,
-  me_BaseTypes::TUint_2,
-  me_BaseTypes::TBool;
 
 using
   me_MemorySegment::TMemorySegment;

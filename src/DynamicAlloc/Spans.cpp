@@ -35,7 +35,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-06-02
+  Last mod.: 2024-09-12
 */
 
 #include "me_MemorySegment.h"
@@ -45,8 +45,6 @@
 #include <me_BaseTypes.h>
 
 using
-  me_BaseTypes::TUint_2,
-  me_BaseTypes::TBool,
   me_MemorySegment::TMemorySegment;
 
 /*

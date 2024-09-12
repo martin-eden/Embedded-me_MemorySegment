@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-06-01
+  Last mod.: 2024-09-12
 */
 
 #include <me_MemorySegment.h>
@@ -27,11 +27,6 @@ void setup()
 void loop()
 {
 }
-
-using
-  me_BaseTypes::TBool,
-  me_BaseTypes::TUint_1,
-  me_BaseTypes::TUint_2;
 
 void Test()
 {
@@ -80,9 +75,9 @@ void Test()
   }
 }
 
-me_BaseTypes::TBool VerboseReserve(
+TBool VerboseReserve(
   me_MemorySegment::TMemorySegment * MemSeg,
-  me_BaseTypes::TUint_2 SegSize
+  TUint_2 SegSize
 )
 {
   MemSeg->PrintWrappings();
@@ -101,7 +96,7 @@ me_BaseTypes::TBool VerboseReserve(
   return true;
 }
 
-me_BaseTypes::TBool VerboseRelease(
+TBool VerboseRelease(
   me_MemorySegment::TMemorySegment * MemSeg
 )
 {
