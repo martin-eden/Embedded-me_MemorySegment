@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-09-12
+  Last mod.: 2024-09-15
 */
 
 #include "me_MemorySegment.h"
@@ -115,7 +115,6 @@ TMemorySegment me_MemorySegment::FromAsciiz(TChar * Asciiz)
 
   return Result;
 }
-
 
 // FromAsciiz() wrapper for typical use case .FromAsciiz("Literal")
 TMemorySegment me_MemorySegment::FromAsciiz(const TChar * Asciiz)

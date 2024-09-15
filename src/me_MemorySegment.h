@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-09-12
+  Last mod.: 2024-09-15
 */
 
 /*
@@ -43,20 +43,20 @@ namespace me_MemorySegment
     // Get byte from segment by given offset
     TBool GetByte(TUint_1 * Byte, TUint_2 Offset);
 
-    // Copy memory to another segment
+    // Copy memory to
     TBool CopyMemTo(TMemorySegment Dest);
-    // Copy memory from another segment
+    // Copy memory from
     TBool CopyMemFrom(TMemorySegment Src);
     // Fill memory with zeroes
     void ZeroMem();
-    // Compare for equality
+    // Compare with our specie
     TBool IsEqualTo(TMemorySegment Another);
-    // Compare for equality with ASCIIZ
+    // Compare with ASCIIZ
     TBool IsEqualTo(const TChar * Asciiz);
 
-    // Reserve block of memory
+    // Reserve block of memory and zero it
     TBool Reserve(TUint_2 SegSize);
-    // Release block of memory
+    // Release block of memory and zero it before
     TBool Release();
   };
 
@@ -88,4 +88,5 @@ namespace me_MemorySegment
   2024-06-04
   2024-06-07 IsEqualTo
   2024-06-08 IsEqualTo.Asciiz
+  2024-09-15 Zeroing before alloc/free is part of contract now
 */

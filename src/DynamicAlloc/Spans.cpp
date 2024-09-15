@@ -35,7 +35,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-09-12
+  Last mod.: 2024-09-15
 */
 
 #include "me_MemorySegment.h"
@@ -48,7 +48,7 @@ using
   me_MemorySegment::TMemorySegment;
 
 /*
-  Reserve block of memory
+  Reserve block of memory and zero it
 
   Implemented as wrapper over malloc().
 
@@ -88,7 +88,7 @@ TBool TMemorySegment::Reserve(TUint_2 SegSize)
 }
 
 /*
-  Release block of memory
+  Release block of memory and zero it before
 
   Implemented as wrapper over free().
 
