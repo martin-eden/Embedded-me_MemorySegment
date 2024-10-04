@@ -39,12 +39,7 @@ TMemorySegment::~TMemorySegment()
 }
 
 /*
-  Print data describing memory segment to stdout.
-
-  Useful for verification.
-
-  We do not make any assumptions regarding memory described
-  by segment. We do not try to read it.
+  [Debug] Print state and data to stdout
 */
 void TMemorySegment::PrintWrappings()
 {
@@ -53,6 +48,12 @@ void TMemorySegment::PrintWrappings()
   Start.PrintWrappings();
   printf(" Size %u", Size);
   printf(" )");
+  printf("\n");
+
+  printf("( ");
+  for (TUint_2 Offset = 0; Offset < Size; ++Offset)
+    printf("%03u ", Bytes[Offset]);
+  printf(")\n");
 }
 
 /*

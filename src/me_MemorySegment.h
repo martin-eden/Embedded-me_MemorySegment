@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-09-15
+  Last mod.: 2024-10-04
 */
 
 /*
@@ -35,7 +35,7 @@ namespace me_MemorySegment
     // Zeroing destructor
     ~TMemorySegment();
 
-    // Print segment range to stdout
+    // [Debug] Print fields and data to stdout
     void PrintWrappings();
     // Print raw bytes of memory in range to stdout
     void Print();
