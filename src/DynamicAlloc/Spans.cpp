@@ -9,33 +9,11 @@
 
   Memory span is zeroed after allocation. Memory span is zeroed
   before release.
-
-  Reserve memory block of <Size> bytes:
-
-    bool .Reserve(<Size>)
-
-    Before:
-      <.Start.Addr> = 0
-      <.Size> = 0
-    After:
-      <.Start.Addr> != 0
-      <.Size> = <Size>
-
-  Free memory block by address <.Start.Addr>:
-
-    bool .Release()
-
-    Before:
-      <.Start.Addr> != 0
-      <.Size> != 0
-    After:
-      <.Start.Addr> = 0
-      <.Size> = 0
 */
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-09-15
+  Last mod.: 2024-10-04
 */
 
 #include "me_MemorySegment.h"
