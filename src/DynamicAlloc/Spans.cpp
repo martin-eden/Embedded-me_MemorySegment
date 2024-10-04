@@ -19,6 +19,7 @@
 #include "me_MemorySegment.h"
 
 #include <stdlib.h> // malloc(), free()
+// #include <stdio.h> // [Debug] printf()
 
 #include <me_BaseTypes.h>
 
@@ -62,6 +63,12 @@ TBool TMemorySegment::Reserve(TUint_2 SegSize)
 
   ZeroMem();
 
+  /*
+  printf("( Reserve\n");
+  PrintWrappings();
+  printf(") Reserve\n");
+  */
+
   return true;
 }
 
@@ -87,6 +94,12 @@ TBool TMemorySegment::Release()
 
   if (Size == 0)
     return false;
+
+  /*
+  printf("( Release\n");
+  PrintWrappings();
+  printf(") Release\n");
+  */
 
   ZeroMem();
 
