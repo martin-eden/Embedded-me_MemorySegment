@@ -2,12 +2,24 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-04
+  Last mod.: 2024-10-05
 */
 
 /*
   Data structures is the base substrate. Algorithms grow on them
   like plant species.
+*/
+
+/*
+  Central part of this module is memory segment definition.
+
+  It's just a 1-D segment of memory addresses.
+
+  It does not own memory. So there's no point to turning it
+  into class. Maximum we can do is place sort of Print() method
+  to read and print contents of memory. But we won't.
+
+  Print() is done by free function from local Freetown.
 */
 
 #pragma once
@@ -17,9 +29,6 @@
 
 namespace me_MemorySegment
 {
-  using
-    me_MemoryPoint::TMemoryPoint;
-
   /*
     Memory span with byte granularity
   */
@@ -27,55 +36,42 @@ namespace me_MemorySegment
   {
     union
     {
-      TMemoryPoint Start = { .Addr = 0 };
+      me_MemoryPoint::TMemoryPoint Start = { .Addr = 0 };
+      // "Bytes" provides array access to memory at "Start.Addr"
       TUint_1 * Bytes;
     };
     TUint_2 Size = 0;
-
-    // Zeroing destructor
-    ~TMemorySegment();
-
-    // [Debug] Print fields and data to stdout
-    void PrintWrappings();
-    // Print raw bytes of memory in range to stdout
-    void Print();
-
-    // Get byte from segment by given offset
-    TBool GetByte(TUint_1 * Byte, TUint_2 Offset);
-
-    // Copy memory to
-    TBool CopyMemTo(TMemorySegment Dest);
-    // Copy memory from
-    TBool CopyMemFrom(TMemorySegment Src);
-    // Fill memory with zeroes
-    void ZeroMem();
-    // Compare with our specie
-    TBool IsEqualTo(TMemorySegment Another);
-    // Compare with ASCIIZ
-    TBool IsEqualTo(const TChar * Asciiz);
-
-    // Reserve block of memory and zero it
-    TBool Reserve(TUint_2 SegSize);
-    // Release block of memory and zero it before
-    TBool Release();
   };
-
-  // Describe ASCIIZ structure as memory segment
-  TMemorySegment FromAsciiz(TChar * Asciiz);
-  TMemorySegment FromAsciiz(const TChar * Asciiz); // <3 U C
-
-  using me_MemoryPoint::TMemoryPoint_Bits;
 
   /*
     Memory span with bit granularity
 
-    64 Kibit <Size> means maximum span is 8 KiB.
+    64 Kibits is 8 KiB
   */
   struct TMemorySegment_Bits
   {
-    TMemoryPoint_Bits Start;
+    me_MemoryPoint::TMemoryPoint_Bits Start;
     TUint_2 Size;
   };
+
+  namespace Freetown
+  {
+    // [Debug] Print fields and data to stdout
+    void PrintWrappings(TMemorySegment * MemSeg);
+
+    // Print uncooked data to stdout
+    void Print(TMemorySegment MemSeg);
+
+    // Describe ASCIIZ structure as memory segment
+    TMemorySegment FromAsciiz(TChar * Asciiz);
+    TMemorySegment FromAsciiz(const TChar * Asciiz); // <3 U C
+
+    // Return true if segments intersect
+    TBool Intersects(TMemorySegment A, TMemorySegment B);
+
+    // Compare for equality
+    TBool AreEqual(TMemorySegment A, TMemorySegment B);
+  }
 }
 
 /*
@@ -89,4 +85,5 @@ namespace me_MemorySegment
   2024-06-07 IsEqualTo
   2024-06-08 IsEqualTo.Asciiz
   2024-09-15 Zeroing before alloc/free is part of contract now
+  2024-10-05 Freetown. Moved memory-changing code to [me_ManagedMemory]
 */
