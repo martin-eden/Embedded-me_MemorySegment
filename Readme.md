@@ -24,16 +24,16 @@ struct TMemorySegment
 
 This structure is our type for variable-length data in RAM.
 
-Later [me_ManagedMemory][me_ManagedMemory] module will use it
-to reserve/release heap memory. And [me_List][me_List] will use
-`me_ManagedMemory` to store their nodes. And [me_Menu][me_Menu]
-will use `me_List`. And [me_RgbStripeConsole][me_RgbStripeConsole]
+Later [`me_ManagedMemory`][me_ManagedMemory] module will use it
+to reserve/release heap memory. And [`me_List`][me_List] will use
+`me_ManagedMemory` to store their nodes. And [`me_Menu`][me_Menu]
+will use `me_List`. And [`me_RgbStripeConsole`][me_RgbStripeConsole]
 will use `me_Menu`. And...
 
 Described memory is not ours, so there are no functions that
 modify memory (like copying data or filling memory with zero byte).
 
-But we have `Print()`, `FromAsciiz()`, `Intersects` and `AreEqual`.
+But we have `Print()`, `FromAsciiz()`, `Intersects()` and `AreEqual()`.
 
 
 ## Code
