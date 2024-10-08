@@ -131,21 +131,20 @@ void me_MemorySegment::Freetown::PrintWrappings(
   Console.Print("(");
   Console.Indent();
 
-  Console.Write("Start");
+  Console.Write("Start ");
   Console.Print(MemSeg.Start.Addr);
   Console.Newline();
 
-  Console.Write("Size");
+  Console.Write("Size ");
   Console.Print(MemSeg.Size);
   Console.Newline();
 
-  Console.Write("Data");
-  Console.Write("(");
+  Console.Write("Data ( ");
 
   for (TUint_2 Offset = 0; Offset < MemSeg.Size; ++Offset)
     Console.Print(MemSeg.Bytes[Offset]);
 
-  Console.Write(")");
+  Console.Write(" ) ");
 
   Console.Unindent();
   Console.Print(")");
