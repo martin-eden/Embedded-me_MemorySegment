@@ -74,10 +74,11 @@ But we are too lazy to write demo code for them.
 
 ## Code
 
-* [Example](examples/me_MemorySegment/me_MemorySegment.ino)
-* [Interface](src/me_MemorySegment.h)
-* [Implementation](src/me_MemorySegment.cpp)
-* [Design notes](extras/Design%20notes.txt)
+* [Example][Example]
+* [Interface][Interface]
+* Implementation
+  * [Free functions][Freetown]
+* [Design notes][Design notes]
 
 
 ## Requirements
@@ -103,7 +104,7 @@ Run [Remove.sh](Remove.sh).
 
 [Example]: examples/me_MemorySegment/me_MemorySegment.ino
 [Interface]: src/me_MemorySegment.h
-[Implementation]: src/me_MemorySegment_Freetown.cpp
+[Freetown]: src/me_MemorySegment_Freetown.cpp
 [Design notes]: extras/Design%20notes.txt
 
 [me_ManagedMemory]: https://github.com/martin-eden/Embedded-me_ManagedMemory
