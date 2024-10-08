@@ -9,42 +9,12 @@
 
 #include <me_BaseTypes.h>
 
-#include <stdio.h> // printf() for Print()
+#include <stdio.h> // fwrite() for Print()
 #include <string.h> // strlen() for FromAsciiz()
+#include <me_Console.h> // <Console> for PrintWrappings()
 
 using
   me_MemorySegment::TMemorySegment;
-
-/*
-  [Debug] Print state and data to stdout
-*/
-void me_MemorySegment::Freetown::PrintWrappings(
-  TMemorySegment * MemSeg
-)
-{
-  printf("[TMemorySegment 0x%04X]", (TUint_2) MemSeg);
-  printf("( Start ");
-  MemSeg->Start.PrintWrappings();
-  printf(" Size %u", MemSeg->Size);
-  printf(" )");
-  printf("\n");
-
-  printf("( ");
-  for (TUint_2 Offset = 0; Offset < MemSeg->Size; ++Offset)
-    printf("%03u ", MemSeg->Bytes[Offset]);
-  printf(")\n");
-}
-
-/*
-  Print uncooked contents of memory segment to stdout
-*/
-void me_MemorySegment::Freetown::Print(
-  TMemorySegment MemSeg
-)
-{
-  for (TUint_2 Offset = 0; Offset < MemSeg.Size; ++Offset)
-    fputc(MemSeg.Bytes[Offset], stdout);
-}
 
 /*
   Cast ASCII structure to memory segment
@@ -137,6 +107,48 @@ TBool me_MemorySegment::Freetown::AreEqual(
       return false;
 
   return true;
+}
+
+/*
+  Print uncooked contents of memory segment to stdout
+*/
+void me_MemorySegment::Freetown::Print(
+  TMemorySegment MemSeg
+)
+{
+  // First implementation was in [me_ParseInteger] demo
+  fwrite(MemSeg.Bytes, MemSeg.Size, 1, stdout);
+}
+
+/*
+  [Debug] Print state and data to stdout
+*/
+void me_MemorySegment::Freetown::PrintWrappings(
+  TMemorySegment MemSeg
+)
+{
+  Console.Print("TMemorySegment");
+  Console.Print("(");
+  Console.Indent();
+
+  Console.Write("Start");
+  Console.Print(MemSeg.Start.Addr);
+  Console.Newline();
+
+  Console.Write("Size");
+  Console.Print(MemSeg.Size);
+  Console.Newline();
+
+  Console.Write("Data");
+  Console.Write("(");
+
+  for (TUint_2 Offset = 0; Offset < MemSeg.Size; ++Offset)
+    Console.Print(MemSeg.Bytes[Offset]);
+
+  Console.Write(")");
+
+  Console.Unindent();
+  Console.Print(")");
 }
 
 /*

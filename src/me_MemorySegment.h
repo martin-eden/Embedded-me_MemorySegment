@@ -57,7 +57,7 @@ namespace me_MemorySegment
   namespace Freetown
   {
     // [Debug] Print fields and data to stdout
-    void PrintWrappings(TMemorySegment * MemSeg);
+    void PrintWrappings(TMemorySegment MemSeg);
 
     // Print uncooked data to stdout
     void Print(TMemorySegment MemSeg);
