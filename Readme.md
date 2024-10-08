@@ -36,6 +36,42 @@ modify memory (like copying data or filling memory with zero byte).
 But we have `Print()`, `FromAsciiz()`, `Intersects()` and `AreEqual()`.
 
 
+## Sample output
+
+```
+[me_MemorySegment] Okay, we are here.
+--
+This demo will show typical applications of [me_MemorySegment]
+We recommend to match output with reading code.
+
+  Getting memory segment from ASCIIZ
+    Contents ( ASCIIZ as memory segment. Goodbye zero tail! )
+    Debug contents (
+      TMemorySegment
+      (
+        Start 00513
+        Size 00044
+        Data ( 065 083 067 073 073 090 032 097 115 032 109 101 109 111 114 121 032 115 101 103 109 101 110 116 046 032 071 111 111 100 098 121 101 032 122 101 114 111 032 116 097 105 108 033 )
+      )
+    )
+  --
+  Getting memory segment from AVR registers
+    Debug contents (
+      TMemorySegment
+      (
+        Start 00000
+        Size 00032
+        Data ( 128 000 255 003 010 000 000 000 000 000 032 032 032 000 000 000 016 000 206 003 001 000 000 000 001 003 236 008 235 008 030 000 )
+      )
+    )
+
+.. also there are intersection and equality checking functions.
+But we are too lazy to write demo code for them.
+
+--
+[me_MemorySegment] Done.
+```
+
 ## Code
 
 * [Example](examples/me_MemorySegment/me_MemorySegment.ino)
