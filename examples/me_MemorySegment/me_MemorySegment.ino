@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-08
+  Last mod.: 2024-10-10
 */
 
 #include <me_MemorySegment.h>
@@ -18,6 +18,8 @@ void setup()
   Console.Print("[me_MemorySegment] Okay, we are here.");
   RunTest();
   Console.Print("[me_MemorySegment] Done.");
+
+  Console.Flush();
 }
 
 void loop()
@@ -30,13 +32,22 @@ void RunTest()
 {
   /*
     Guys, sorry for example cluttered with pretty-printing.
-  */
 
-  Console.Line();
-  Console.Write(
-    "This demo will show typical applications of [me_MemorySegment]\n"
-    "We recommend to match output with reading code.\n"
-  );
+    This sketch also serves as field test of [me_Conosle].
+  */
+  Console.Indent();
+
+  Console.Print("--");
+  Console.Print("This demo will show typical applications of [me_MemorySegment].");
+  Console.Print("");
+  Console.Print("Module provides functions to cast memory segment from ASCIIZ.");
+  Console.Print("Plus debug print.");
+  Console.Print("");
+  Console.Print("Also there are intersection and equality checking functions.");
+  Console.Print("But we are too lazy to write demo code for them.");
+  Console.Print("");
+  Console.Print("We recommend to match output with reading code.");
+
   Console.Indent();
 
   using
@@ -46,16 +57,17 @@ void RunTest()
 
   TMemorySegment MemSeg;
 
-  Console.Print("Getting memory segment from ASCIIZ");
+  Console.Print("--");
+  Console.Print("ASCIIZ to memory segment");
 
   // Treat ASCIIZ as memory segment. Just cast, no data copied.
-  MemSeg = FromAsciiz("ASCIIZ as memory segment. Goodbye zero tail!");
+  MemSeg = FromAsciiz("Goodbye zero tail!");
 
   Console.Indent();
   Console.Write("Contents ( ");
   Console.Write(MemSeg);
   Console.Write(" )");
-  Console.Newline();
+  Console.EndLine();
   Console.Unindent();
 
   Console.Indent();
@@ -64,12 +76,12 @@ void RunTest()
   PrintWrappings(MemSeg);
   Console.Unindent();
   Console.Write(")");
-  Console.Newline();
+  Console.EndLine();
   Console.Unindent();
 
-  Console.Line();
+  Console.Print("--");
 
-  Console.Print("Getting memory segment from AVR registers");
+  Console.Print("AVR registers to memory segment");
 
   // AVR registers are at addresses 0 .. 31
   MemSeg.Start.Addr = 0;
@@ -81,17 +93,14 @@ void RunTest()
   PrintWrappings(MemSeg);
   Console.Unindent();
   Console.Write(")");
-  Console.Newline();
+  Console.EndLine();
   Console.Unindent();
 
+  Console.Print("--");
   Console.Unindent();
 
-  Console.Write(
-    "\n"
-    ".. also there are intersection and equality checking functions.\n"
-    "But we are too lazy to write demo code for them.\n"
-  );
-  Console.Line();
+  Console.Print("--");
+  Console.Unindent();
 }
 
 /*
@@ -102,4 +111,5 @@ void RunTest()
   2024-06-02
   2024-10-05
   2024-10-08
+  2024-10-10
 */

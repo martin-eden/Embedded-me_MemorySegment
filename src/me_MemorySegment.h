@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-05
+  Last mod.: 2024-10-10
 */
 
 /*
@@ -13,13 +13,11 @@
 /*
   Central part of this module is memory segment definition.
 
-  It's just a 1-D segment of memory addresses.
+  It's 1-D segment of memory addresses.
 
-  It does not own memory. So there's no point to turning it
-  into class. Maximum we can do is place sort of Print() method
-  to read and print contents of memory. But we won't.
+  It's pointer with size information.
 
-  Print() is done by free function from local Freetown.
+  It's base datatype for all variable-length data.
 */
 
 #pragma once
@@ -58,9 +56,6 @@ namespace me_MemorySegment
   {
     // [Debug] Print fields and data to stdout
     void PrintWrappings(TMemorySegment MemSeg);
-
-    // Print uncooked data to stdout
-    void Print(TMemorySegment MemSeg);
 
     // Describe ASCIIZ structure as memory segment
     TMemorySegment FromAsciiz(TChar * Asciiz);

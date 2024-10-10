@@ -2,14 +2,13 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-05
+  Last mod.: 2024-10-10
 */
 
 #include "me_MemorySegment.h"
 
 #include <me_BaseTypes.h>
 
-#include <stdio.h> // fwrite() for Print()
 #include <string.h> // strlen() for FromAsciiz()
 #include <me_Console.h> // <Console> for PrintWrappings()
 
@@ -110,41 +109,30 @@ TBool me_MemorySegment::Freetown::AreEqual(
 }
 
 /*
-  Print uncooked contents of memory segment to stdout
-*/
-void me_MemorySegment::Freetown::Print(
-  TMemorySegment MemSeg
-)
-{
-  // First implementation was in [me_ParseInteger] demo
-  fwrite(MemSeg.Bytes, MemSeg.Size, 1, stdout);
-}
-
-/*
   [Debug] Print state and data to stdout
 */
 void me_MemorySegment::Freetown::PrintWrappings(
   TMemorySegment MemSeg
 )
 {
-  Console.Print("TMemorySegment");
-  Console.Print("(");
+  Console.Print("TMemorySegment (");
   Console.Indent();
 
-  Console.Write("Start ");
+  Console.Write("Start");
   Console.Print(MemSeg.Start.Addr);
-  Console.Newline();
+  Console.EndLine();
 
-  Console.Write("Size ");
+  Console.Write("Size");
   Console.Print(MemSeg.Size);
-  Console.Newline();
+  Console.EndLine();
 
-  Console.Write("Data ( ");
+  Console.Write("Data (");
 
   for (TUint_2 Offset = 0; Offset < MemSeg.Size; ++Offset)
     Console.Print(MemSeg.Bytes[Offset]);
 
-  Console.Write(" ) ");
+  Console.Write(")");
+  Console.EndLine();
 
   Console.Unindent();
   Console.Print(")");
@@ -157,4 +145,5 @@ void me_MemorySegment::Freetown::PrintWrappings(
   2024-05-30 CloneFrom
   2024-06-07 IsEqualTo
   2024-10-05 [+] Freetown. Memory-changing functions moved to their Freetown
+  2024-10-10 [<] PrintMem moved to [me_Console]
 */
