@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-10
+  Last mod.: 2024-10-11
 */
 
 /*
@@ -64,6 +64,9 @@ namespace me_MemorySegment
     // Return true if segments intersect
     TBool Intersects(TMemorySegment A, TMemorySegment B);
 
+    // Return true if segment A is inside segment B
+    TBool IsInside(TMemorySegment A, TMemorySegment B);
+
     // Compare for equality
     TBool AreEqual(TMemorySegment A, TMemorySegment B);
   }
@@ -81,4 +84,5 @@ namespace me_MemorySegment
   2024-06-08 IsEqualTo.Asciiz
   2024-09-15 Zeroing before alloc/free is part of contract now
   2024-10-05 Freetown. Moved memory-changing code to [me_ManagedMemory]
+  2024-10-11 IsInside
 */

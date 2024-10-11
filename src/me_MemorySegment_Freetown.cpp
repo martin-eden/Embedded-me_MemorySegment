@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-10
+  Last mod.: 2024-10-11
 */
 
 #include "me_MemorySegment.h"
@@ -81,6 +81,37 @@ TBool me_MemorySegment::Freetown::Intersects(
 }
 
 /*
+  Check for belonging
+
+  Return true if segment A is inside segment B.
+
+  Empty segment doesn't belong to anything
+*/
+TBool me_MemorySegment::Freetown::IsInside(
+  TMemorySegment A,
+  TMemorySegment B
+)
+{
+  // Empty segments belongs to noone. Even to the same empty segment
+  if ((A.Size == 0) || (B.Size == 0))
+    return false;
+
+  TUint_2 A_Start = A.Start.Addr;
+  TUint_2 B_Start = B.Start.Addr;
+
+  if (!(A_Start >= B_Start))
+    return false;
+
+  TUint_2 A_Stop = A_Start + A.Size - 1;
+  TUint_2 B_Stop = B_Start + B.Size - 1;
+
+  if (!(A_Stop <= B_Stop))
+    return false;
+
+  return true;
+}
+
+/*
   Compare for equality
 
   If trivial check (equal spans) is passed, we'll compare data.
@@ -146,4 +177,5 @@ void me_MemorySegment::Freetown::PrintWrappings(
   2024-06-07 IsEqualTo
   2024-10-05 [+] Freetown. Memory-changing functions moved to their Freetown
   2024-10-10 [<] PrintMem moved to [me_Console]
+  2024-10-11 [+] IsInside
 */
