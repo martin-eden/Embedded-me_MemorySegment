@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-11
+  Last mod.: 2024-10-14
 */
 
 #include "me_MemorySegment.h"
@@ -46,6 +46,22 @@ TMemorySegment me_MemorySegment::Freetown::FromAsciiz(
 {
   return FromAsciiz((TChar *) Asciiz);
 }
+
+/*
+  Represent address and size args as record
+*/
+TMemorySegment me_MemorySegment::Freetown::FromAddrSize(
+  TUint_2 Addr,
+  TUint_2 Size
+)
+{
+  TMemorySegment Result;
+  Result.Start.Addr = Addr;
+  Result.Size = Size;
+
+  return Result;
+}
+
 
 /*
   Return true if segments intersect
@@ -178,4 +194,5 @@ void me_MemorySegment::Freetown::PrintWrappings(
   2024-10-05 [+] Freetown. Memory-changing functions moved to their Freetown
   2024-10-10 [<] PrintMem moved to [me_Console]
   2024-10-11 [+] IsInside
+  2024-10-14 [+] FromAddrSize
 */

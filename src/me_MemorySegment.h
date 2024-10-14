@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-11
+  Last mod.: 2024-10-14
 */
 
 /*
@@ -61,6 +61,9 @@ namespace me_MemorySegment
     TMemorySegment FromAsciiz(TChar * Asciiz);
     TMemorySegment FromAsciiz(const TChar * Asciiz); // <3 U C
 
+    // Represent address and size args as record
+    TMemorySegment FromAddrSize(TUint_2 Addr, TUint_2 Size);
+
     // Return true if segments intersect
     TBool Intersects(TMemorySegment A, TMemorySegment B);
 
@@ -85,4 +88,5 @@ namespace me_MemorySegment
   2024-09-15 Zeroing before alloc/free is part of contract now
   2024-10-05 Freetown. Moved memory-changing code to [me_ManagedMemory]
   2024-10-11 IsInside
+  2024-10-14 FromAddrSize
 */
