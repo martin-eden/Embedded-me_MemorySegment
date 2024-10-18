@@ -13,7 +13,6 @@
 #include <string.h> // strlen() for FromAsciiz()
 
 #include <me_Console.h> // <Console> for PrintWrappings()
-#include <me_Heap.h> // <Heap> for Reserve(), Release()
 
 using namespace me_MemorySegment;
 
@@ -58,22 +57,6 @@ TBool Freetown::Reserve(
   TUint_2 Size
 )
 {
-  //* [External manager]
-  if (Heap.IsReady())
-  {
-    // Let custom manager handle this case
-    TBool IsReserved = Heap.Reserve(MemSeg, Size);
-
-    if (IsReserved)
-      return true;
-  }
-  //*/
-
-  /*
-    If custom memory manager is not ready or wasn't able
-    to handle this request, we're handling it ourselves.
-  */
-
   // Zero size? Job done!
   if (Size == 0)
     return true;
@@ -111,22 +94,6 @@ void Freetown::Release(
   TMemorySegment * MemSeg
 )
 {
-  //* [External manager]
-  if (Heap.IsReady())
-  {
-    // Let custom manager handle this case
-    TBool IsReleased = Heap.Release(MemSeg);
-
-    if (IsReleased)
-      return;
-  }
-  //*/
-
-  /*
-    We're here if custom memory manager is not ready
-    or wasn't able to handle this request.
-  */
-
   // Zero size? Job done!
   if (MemSeg->Size == 0)
   {
