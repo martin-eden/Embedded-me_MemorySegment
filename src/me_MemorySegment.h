@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-14
+  Last mod.: 2024-10-18
 */
 
 /*
@@ -57,6 +57,17 @@ namespace me_MemorySegment
     // [Debug] Print fields and data to stdout
     void PrintWrappings(TMemorySegment MemSeg);
 
+    // Reserve block of memory. Zero after allocation
+    TBool Reserve(
+      me_MemorySegment::TMemorySegment * MemSeg,
+      TUint_2 Size
+    );
+
+    // Release block of memory. Zero before release
+    void Release(
+      me_MemorySegment::TMemorySegment * MemSeg
+    );
+
     // Describe ASCIIZ structure as memory segment
     TMemorySegment FromAsciiz(TChar * Asciiz);
     TMemorySegment FromAsciiz(const TChar * Asciiz); // <3 U C
@@ -72,6 +83,17 @@ namespace me_MemorySegment
 
     // Compare for equality
     TBool AreEqual(TMemorySegment A, TMemorySegment B);
+
+    // Fill memory span with zero byte
+    void ZeroMem(
+      me_MemorySegment::TMemorySegment MemSeg
+    );
+
+    // Copy data to another segment
+    TBool CopyMemTo(
+      me_MemorySegment::TMemorySegment Dest,
+      me_MemorySegment::TMemorySegment Src
+    );
   }
 }
 
@@ -89,4 +111,5 @@ namespace me_MemorySegment
   2024-10-05 Freetown. Moved memory-changing code to [me_ManagedMemory]
   2024-10-11 IsInside
   2024-10-14 FromAddrSize
+  2024-10-18 [>] Import Freetown from [me_ManagedMemory]
 */

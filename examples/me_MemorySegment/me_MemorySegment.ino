@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-10
+  Last mod.: 2024-10-18
 */
 
 #include <me_MemorySegment.h>
@@ -13,13 +13,11 @@
 
 void setup()
 {
-  Console.Init(me_UartSpeeds::Arduino_Normal_Bps);
+  Serial.begin(me_UartSpeeds::Arduino_Normal_Bps);
 
   Console.Print("[me_MemorySegment] Okay, we are here.");
   RunTest();
   Console.Print("[me_MemorySegment] Done.");
-
-  Console.Flush();
 }
 
 void loop()
@@ -112,4 +110,5 @@ void RunTest()
   2024-10-05
   2024-10-08
   2024-10-10
+  2024-10-18
 */
