@@ -90,8 +90,7 @@ But we are too lazy to write demo code for them.
 
 * [Example][Example]
 * [Interface][Interface]
-* Implementation
-  * [Free functions][Freetown]
+* [Implementation][Implementation]
 * [Design notes][Design notes]
 
 
@@ -118,7 +117,7 @@ Run [Remove.sh](Remove.sh).
 
 [Example]: examples/me_MemorySegment/me_MemorySegment.ino
 [Interface]: src/me_MemorySegment.h
-[Freetown]: src/me_MemorySegment_Freetown.cpp
+[Implementation]: src/me_MemorySegment.cpp
 [Design notes]: extras/Design%20notes.txt
 
 [me_ManagedMemory]: https://github.com/martin-eden/Embedded-me_ManagedMemory
