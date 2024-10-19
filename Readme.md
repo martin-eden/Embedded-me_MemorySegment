@@ -24,16 +24,30 @@ struct TMemorySegment
 
 This structure is our type for variable-length data in RAM.
 
-Later [`me_ManagedMemory`][me_ManagedMemory] module will use it
-to reserve/release heap memory. And [`me_List`][me_List] will use
-`me_ManagedMemory` to store their nodes. And [`me_Menu`][me_Menu]
-will use `me_List`. And [`me_RgbStripeConsole`][me_RgbStripeConsole]
-will use `me_Menu`. And...
+### `.Bytes`
 
-Described memory is not ours, so there are no functions that
-modify memory (like copying data or filling memory with zero byte).
+`Bytes` field is a sort of compiler's hack. It tells compiler that
+given address is pointer to byte. And C++ is always happy to treat
+anything as array.
 
-But we have `Print()`, `FromAsciiz()`, `Intersects()` and `AreEqual()`.
+For example let's divide value in register R3 by 2 (just for example):
+
+```C++
+TMemorySegment Registers;
+Resisters.Start.Addr = 0;
+Registers.Size = 32;
+
+Registers.Bytes[3] = Registers.Bytes[3] / 2;
+```
+
+This works while segment describes span in RAM. (Not in flash or in EEPROM
+for example.)
+
+
+## Uses
+
+Actually this module became like new base type and widely used
+by my other libraries.
 
 
 ## Sample output
