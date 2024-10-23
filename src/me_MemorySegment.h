@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-18
+  Last mod.: 2024-10-23
 */
 
 /*
@@ -22,7 +22,6 @@
 
 #pragma once
 
-#include <me_MemoryPoint.h>
 #include <me_BaseTypes.h>
 
 namespace me_MemorySegment
@@ -34,7 +33,7 @@ namespace me_MemorySegment
   {
     union
     {
-      me_MemoryPoint::TMemoryPoint Start = { .Addr = 0 };
+      TUint_2 Addr = 0;
       // "Bytes" provides array access to memory at "Start.Addr"
       TUint_1 * Bytes;
     };
@@ -112,4 +111,5 @@ namespace me_MemorySegment
   2024-10-11 IsInside
   2024-10-14 FromAddrSize
   2024-10-18 [>] Import Freetown from [me_ManagedMemory]
+  2024-10-23 [-] Removed [me_MemoryPoint], <TMemorySegment_Bits>
 */

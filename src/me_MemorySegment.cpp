@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-18
+  Last mod.: 2024-10-23
 */
 
 #include "me_MemorySegment.h"
@@ -26,8 +26,8 @@ void Freetown::PrintWrappings(
   Console.Print("TMemorySegment (");
   Console.Indent();
 
-  Console.Write("Start");
-  Console.Print(MemSeg.Start.Addr);
+  Console.Write("Addr");
+  Console.Print(MemSeg.Addr);
   Console.EndLine();
 
   Console.Write("Size");
@@ -71,14 +71,14 @@ TBool Freetown::Reserve(
     return false;
   }
 
-  MemSeg->Start.Addr = MallocAddr;
+  MemSeg->Addr = MallocAddr;
   MemSeg->Size = Size;
 
   // Zero memory (contract)
   ZeroMem(*MemSeg);
 
   /* [Debug]
-  printf_P(PSTR("Reserve ( Addr %05u Size %05u )\n"), MemSeg->Start.Addr, MemSeg->Size);
+  printf_P(PSTR("Reserve ( Addr %05u Size %05u )\n"), MemSeg->Addr, MemSeg->Size);
   //*/
 
   return true;
@@ -97,20 +97,20 @@ void Freetown::Release(
   // Zero size? Job done!
   if (MemSeg->Size == 0)
   {
-    MemSeg->Start.Addr = 0;
+    MemSeg->Addr = 0;
     return;
   }
 
   /* [Debug]
-  printf_P(PSTR("Release ( Addr %05u Size %05u )\n"), MemSeg->Start.Addr, MemSeg->Size);
+  printf_P(PSTR("Release ( Addr %05u Size %05u )\n"), MemSeg->Addr, MemSeg->Size);
   //*/
 
   // Zero memory (optional)
   ZeroMem(*MemSeg);
 
-  free((void *) MemSeg->Start.Addr);
+  free((void *) MemSeg->Addr);
 
-  MemSeg->Start.Addr = 0;
+  MemSeg->Addr = 0;
   MemSeg->Size = 0;
 }
 
@@ -130,7 +130,7 @@ TMemorySegment Freetown::FromAsciiz(
 {
   TMemorySegment Result;
 
-  Result.Start.Addr = (TUint_2) Asciiz;
+  Result.Addr = (TUint_2) Asciiz;
   Result.Size = strlen(Asciiz);
 
   return Result;
@@ -155,7 +155,7 @@ TMemorySegment Freetown::FromAddrSize(
 )
 {
   TMemorySegment Result;
-  Result.Start.Addr = Addr;
+  Result.Addr = Addr;
   Result.Size = Size;
 
   return Result;
@@ -175,8 +175,8 @@ TBool Freetown::Intersects(
   if ((A.Size == 0) || (B.Size == 0))
     return false;
 
-  TUint_2 A_Start = A.Start.Addr;
-  TUint_2 B_Start = B.Start.Addr;
+  TUint_2 A_Start = A.Addr;
+  TUint_2 B_Start = B.Addr;
 
   if (A_Start < B_Start)
   {
@@ -210,8 +210,8 @@ TBool Freetown::IsInside(
   if ((A.Size == 0) || (B.Size == 0))
     return false;
 
-  TUint_2 A_Start = A.Start.Addr;
-  TUint_2 B_Start = B.Start.Addr;
+  TUint_2 A_Start = A.Addr;
+  TUint_2 B_Start = B.Addr;
 
   if (!(A_Start >= B_Start))
     return false;
@@ -242,7 +242,7 @@ TBool Freetown::AreEqual(
     return false;
 
   // Equality for same span
-  if (A.Start.Addr == B.Start.Addr)
+  if (A.Addr == B.Addr)
     return true;
 
   // Data comparison
