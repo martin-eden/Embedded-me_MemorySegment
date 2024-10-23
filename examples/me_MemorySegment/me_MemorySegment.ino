@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-18
+  Last mod.: 2024-10-23
 */
 
 #include <me_MemorySegment.h>
@@ -82,7 +82,7 @@ void RunTest()
   Console.Print("AVR registers to memory segment");
 
   // AVR registers are at addresses 0 .. 31
-  MemSeg.Start.Addr = 0;
+  MemSeg.Addr = 0;
   MemSeg.Size = 32;
 
   Console.Indent();
