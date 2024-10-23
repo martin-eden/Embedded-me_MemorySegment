@@ -40,17 +40,6 @@ namespace me_MemorySegment
     TUint_2 Size = 0;
   };
 
-  /*
-    Memory span with bit granularity
-
-    64 Kibits is 8 KiB
-  */
-  struct TMemorySegment_Bits
-  {
-    me_MemoryPoint::TMemoryPoint_Bits Start;
-    TUint_2 Size;
-  };
-
   namespace Freetown
   {
     // [Debug] Print fields and data to stdout
