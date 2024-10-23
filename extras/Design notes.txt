@@ -2,6 +2,9 @@ Memory segment.
 
 Continuous range of bytes in memory.
 
+
+2024-05-17
+
 At design time I was thinking about alternative representations:
 
   * Two points:
@@ -28,4 +31,21 @@ At design time I was thinking about alternative representations:
     I settled on "size" assuming amount of information units in
     structure, not geometric meaning of length of 1-d segment.
 
--- Martin, 2024-05-17
+
+2024-10-23
+
+I've renamed <Start> to <Addr>.
+
+First, I'm dropping [me_MemoryPoint]. Noone needs point, they all
+need segment of memory. Modules are not forever, my friend.
+
+Getting TUint_2 with address where memory segment starts was
+<Start.Addr>. Conceptually nice but redundant.
+
+After removing [me_MemoryPoint] I have freedom how to name address field:
+<Start>, <Addr> or <StartAddr>? (<Address> is too mouthful).
+
+I'm choosing <Addr> to keep users aware that we are talking most likely
+about RAM address. Not about some float-point segment with Start at 1.134.
+
+<StartAddr> is redundant because there are no other "Addr"'s in this scope.
