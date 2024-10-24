@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-23
+  Last mod.: 2024-10-24
 */
 
 #include <me_MemorySegment.h>
@@ -69,7 +69,7 @@ void RunTest()
   Console.Unindent();
 
   Console.Indent();
-  Console.Write("Debug contents ( ");
+  Console.Write("Debug contents (");
   Console.Indent();
   PrintWrappings(MemSeg);
   Console.Unindent();
@@ -86,7 +86,7 @@ void RunTest()
   MemSeg.Size = 32;
 
   Console.Indent();
-  Console.Write("Debug contents ( ");
+  Console.Write("Debug contents (");
   Console.Indent();
   PrintWrappings(MemSeg);
   Console.Unindent();
