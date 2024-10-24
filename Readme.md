@@ -14,12 +14,12 @@ struct TMemorySegment
 {
   union
   {
-    TMemoryPoint Start = { .Addr = 0 };
+    TUint_2 Addr = 0;
     // "Bytes" provides array access to memory at "Start.Addr"
     TUint_1 * Bytes;
   };
   TUint_2 Size = 0;
-}
+};
 ```
 
 This structure is our type for variable-length data in RAM.
@@ -34,7 +34,7 @@ For example let's divide value in register R3 by 2 (just for example):
 
 ```C++
 TMemorySegment Registers;
-Resisters.Start.Addr = 0;
+Resisters.Addr = 0;
 Registers.Size = 32;
 
 Registers.Bytes[3] = Registers.Bytes[3] / 2;
@@ -54,36 +54,39 @@ by my other libraries.
 
 ```
 [me_MemorySegment] Okay, we are here.
---
-This demo will show typical applications of [me_MemorySegment]
-We recommend to match output with reading code.
-
-  Getting memory segment from ASCIIZ
-    Contents ( ASCIIZ as memory segment. Goodbye zero tail! )
-    Debug contents (
-      TMemorySegment
-      (
-        Start 00513
-        Size 00044
-        Data ( 065 083 067 073 073 090 032 097 115 032 109 101 109 111 114 121 032 115 101 103 109 101 110 116 046 032 071 111 111 100 098 121 101 032 122 101 114 111 032 116 097 105 108 033 )
-      )
-    )
   --
-  Getting memory segment from AVR registers
-    Debug contents (
-      TMemorySegment
-      (
-        Start 00000
-        Size 00032
-        Data ( 128 000 255 003 010 000 000 000 000 000 032 032 032 000 000 000 016 000 206 003 001 000 000 000 001 003 236 008 235 008 030 000 )
+  This demo will show typical applications of [me_MemorySegment].
+
+  Module provides functions to cast memory segment from ASCIIZ.
+  Plus debug print.
+
+  Also there are intersection and equality checking functions.
+  But we are too lazy to write demo code for them.
+
+  We recommend to match output with reading code.
+    --
+    ASCIIZ to memory segment
+      Contents ( Goodbye zero tail! )
+      Debug contents (
+        TMemorySegment (
+          Addr 00682
+          Size 00018
+          Data ( 071 111 111 100 098 121 101 032 122 101 114 111 032 116 097 105 108 033 )
+        )
       )
-    )
-
-.. also there are intersection and equality checking functions.
-But we are too lazy to write demo code for them.
-
---
+    --
+    AVR registers to memory segment
+      Debug contents (
+        TMemorySegment (
+          Addr 00000
+          Size 00032
+          Data ( 163 000 000 000 174 008 003 000 001 001 032 000 000 000 232 008 016 000 000 000 000 000 048 008 002 000 003 000 231 008 030 000 )
+        )
+      )
+    --
+  --
 [me_MemorySegment] Done.
+
 ```
 
 ## Code
