@@ -155,6 +155,7 @@ TMemorySegment Freetown::FromAddrSize(
 )
 {
   TMemorySegment Result;
+
   Result.Addr = Addr;
   Result.Size = Size;
 
